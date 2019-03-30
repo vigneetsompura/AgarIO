@@ -4,6 +4,9 @@
 package agario;
 
 import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 
 /**
  * @author Vigneet Sompura
@@ -11,7 +14,7 @@ import java.awt.Canvas;
  */
 public class AgarIO extends Canvas implements Runnable{
 
-	public static final int WIDTH = 1600, HEIGHT = WIDTH/16*9;
+	public static final int WIDTH = 1200, HEIGHT = WIDTH/12*9;
 	private Thread thread;
 	private boolean running = false;
 	
@@ -70,8 +73,16 @@ public class AgarIO extends Canvas implements Runnable{
 	}
 
 	private void render() {
-		// TODO Auto-generated method stub
-		
+		BufferStrategy bs = this.getBufferStrategy();
+		if (bs == null) {
+			this.createBufferStrategy(2);
+			return;
+		}
+		Graphics g = bs.getDrawGraphics();
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		g.dispose();
+		bs.show();
 	}
 
 	private void tick() {
