@@ -12,8 +12,8 @@ public class Player extends GameObject {
 	
 	public Player(int x, int y,ID id) {
 		super(x, y, 32, id);
-		mouseX = x;
-		mouseY = y;
+		mouseX = 0;
+		mouseY = 0;
 		this.speed = 5;
 		this.boost = 1;
 	} 
@@ -26,11 +26,12 @@ public class Player extends GameObject {
 		AgarIO.setOY(AgarIO.OY + velY);
 		if(boost!=1)
 			boost--;
+		
 	}
 	
 	public void updateVelocity() {
-		int velX = (int) (mouseX - getX());
-		int velY = (int) (mouseY - getY());
+		int velX = (int) (mouseX);
+		int velY = (int) (mouseY);
 		
 		int x = (int) ((speed*boost*velX)/Math.sqrt((velX*velX + velY*velY)));
 		int y = (int) ((speed*boost*velY)/Math.sqrt((velX*velX + velY*velY)));
@@ -46,10 +47,10 @@ public class Player extends GameObject {
 		}
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.CYAN);
-		g.fillOval((int) (x-radius-AgarIO.OX),(int) (y-radius-AgarIO.OY), (int) radius*2,(int) radius*2);
+		g.fillOval((int) (x-radius),(int) (y-radius), (int) radius*2,(int) radius*2);
 		
 		 
 	}

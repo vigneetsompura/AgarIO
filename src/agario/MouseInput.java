@@ -13,14 +13,14 @@ public class MouseInput extends MouseAdapter{
 	}
 	
 	public void mouseMoved(MouseEvent e) {
-		p.setMouseX(e.getX()+AgarIO.OX);
-		p.setMouseY(e.getY()+AgarIO.OY);
+		p.setMouseX(e.getX()-AgarIO.FWIDTH/2);
+		p.setMouseY(e.getY()-AgarIO.FHEIGHT/2);
 		//System.out.println(e.getX()+","+e.getY());
 	}
 	
 	public void mouseExited(MouseEvent e) {
-		p.setMouseX(p.getX());
-		p.setMouseY(p.getY());
+		p.setMouseX(0);
+		p.setMouseY(0);
 	}
 	
 	public void mousePressed(MouseEvent e) {

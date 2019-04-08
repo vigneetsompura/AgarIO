@@ -15,14 +15,17 @@ import java.awt.image.BufferStrategy;
 public class AgarIO extends Canvas implements Runnable{
 
 	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
+	public static final int FWIDTH = 1200, FHEIGHT = FWIDTH/16*9;
 	public static int OX = WIDTH/3, OY = HEIGHT/3;
 	private Thread thread;
 	private boolean running = false;
 	private Handler handler; 
 	
+	Player p;
+	
 	public AgarIO() {
 		handler = new Handler();
-		Player p = new Player(WIDTH/2,HEIGHT/2, ID.Player);
+		p = new Player(WIDTH/2,HEIGHT/2, ID.Player);
 		
 		for(int i=0; i<100; i++) {
 			handler.addObject(new Food(ID.Food));
@@ -31,7 +34,7 @@ public class AgarIO extends Canvas implements Runnable{
 		this.addMouseMotionListener(new MouseInput(p));
 		this.addMouseListener(new MouseInput(p));
 		this.addKeyListener(new KeyInput(p));
-		new Window(WIDTH/3, HEIGHT/3, "AgarIO", this);
+		new Window(FWIDTH, FHEIGHT, "AgarIO", this);
 	}
 
 	/**
@@ -77,7 +80,8 @@ public class AgarIO extends Canvas implements Runnable{
 			frames++;
 			if(System.currentTimeMillis()-timer > 1000) {
 				timer += 1000;
-				System.out.println("FPS: "+frames);
+				//System.out.println("FPS: "+frames);
+				System.out.println("Score :" + (int) ((p.radius-32)*2));
 				frames = 0;
 			}
 		}
@@ -93,7 +97,11 @@ public class AgarIO extends Canvas implements Runnable{
 		
 		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 		g.setColor(Color.gray);
-		g.fillRect(-OX, -OY, WIDTH, HEIGHT);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		g.translate(FWIDTH/2, FHEIGHT/2);
+		double scale = 64/p.getRadius();
+		g.scale(scale, scale);
+		g.translate(-p.getX(),-p.getY());
 		handler.render(g);
 		g.dispose();
 		bs.show();

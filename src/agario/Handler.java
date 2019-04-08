@@ -1,6 +1,6 @@
 package agario;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.LinkedList;
 
 public class Handler {
@@ -21,7 +21,7 @@ public class Handler {
 		}
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		for(GameObject object: objects) {
 			object.render(g);
 		}

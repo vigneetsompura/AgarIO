@@ -1,7 +1,7 @@
 package agario;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Random;
 
 public class Food extends GameObject {
@@ -16,9 +16,9 @@ public class Food extends GameObject {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		g.setColor(Color.yellow);
-		g.fillOval((int) (x-radius-AgarIO.OX),(int) (y-radius-AgarIO.OY), (int) radius*2,(int) radius*2);
+		g.fillOval((int) (x-radius),(int) (y-radius), (int) radius*2,(int) radius*2);
 	}
 
 	public void respawn() {
