@@ -20,21 +20,23 @@ public class Player extends GameObject {
 
 	public void tick() {
 		updateVelocity();
-		x  = moveWithConstraints(x+velX,0,AgarIO.WIDTH);
-		y = moveWithConstraints(y+velY,0,AgarIO.HEIGHT);
+		x  = moveWithConstraints(x+velX,(int)radius,AgarIO.WIDTH-(int)radius);
+		y = moveWithConstraints(y+velY,(int)radius,AgarIO.HEIGHT-(int)radius);
 		if(boost!=1)
 			boost--;
 		
 	}
 	
 	public void updateVelocity() {
-		int velX = (int) (mouseX);
-		int velY = (int) (mouseY);
-		
-		int x = (int) ((speed*boost*velX)/Math.sqrt((velX*velX + velY*velY)));
-		int y = (int) ((speed*boost*velY)/Math.sqrt((velX*velX + velY*velY)));
-		this.setVelX(x);
-		this.setVelY(y);
+		if(mouseX!=0 || mouseY!=0) {
+			int velX = (int) ((speed*boost*mouseX)/Math.sqrt((mouseX*mouseX + mouseY*mouseY)));
+			int velY = (int) ((speed*boost*mouseY)/Math.sqrt((mouseX*mouseX + mouseY*mouseY)));
+			this.setVelX(velX);
+			this.setVelY(velY);
+		}else {
+			this.setVelX(0);
+			this.setVelY(0);
+		}
 	}
 
 	
