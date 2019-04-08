@@ -13,7 +13,7 @@ public class KeyInput extends KeyAdapter {
 	}
 	
 	public void keyPressed(KeyEvent k) {
-		if(k.getKeyCode()==32 && flag) {
+		if(k.getKeyCode()==KeyEvent.VK_SPACE && flag) {
 			p.setBoost(10);
 			flag = false;
 		}

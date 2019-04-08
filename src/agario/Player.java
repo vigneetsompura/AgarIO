@@ -20,10 +20,8 @@ public class Player extends GameObject {
 
 	public void tick() {
 		updateVelocity();
-		x += velX;
-		y += velY;
-		AgarIO.setOX(AgarIO.OX + velX);
-		AgarIO.setOY(AgarIO.OY + velY);
+		x  = moveWithConstraints(x+velX,0,AgarIO.WIDTH);
+		y = moveWithConstraints(y+velY,0,AgarIO.HEIGHT);
 		if(boost!=1)
 			boost--;
 		

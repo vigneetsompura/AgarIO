@@ -16,7 +16,7 @@ public class AgarIO extends Canvas implements Runnable{
 
 	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
 	public static final int FWIDTH = 1200, FHEIGHT = FWIDTH/16*9;
-	public static int OX = WIDTH/3, OY = HEIGHT/3;
+	
 	private Thread thread;
 	private boolean running = false;
 	private Handler handler; 
@@ -32,7 +32,7 @@ public class AgarIO extends Canvas implements Runnable{
 		}
 		handler.addObject(p);
 		this.addMouseMotionListener(new MouseInput(p));
-		this.addMouseListener(new MouseInput(p));
+		//this.addMouseListener(new MouseInput(p));
 		this.addKeyListener(new KeyInput(p));
 		new Window(FWIDTH, FHEIGHT, "AgarIO", this);
 	}
@@ -112,19 +112,5 @@ public class AgarIO extends Canvas implements Runnable{
 		handler.tick();
 	}
 
-	public static int getOX() {
-		return OX;
-	}
-
-	public static void setOX(int oX) {
-		OX = oX;
-	}
-
-	public static int getOY() {
-		return OY;
-	}
-
-	public static void setOY(int oY) {
-		OY = oY;
-	}
+	
 }
