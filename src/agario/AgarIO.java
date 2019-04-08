@@ -17,6 +17,7 @@ public class AgarIO extends Canvas implements Runnable{
 
 	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
 	public static final int FWIDTH = 1600, FHEIGHT = FWIDTH/16*9;
+	public double scale = 1;
 	
 	private Thread thread;
 	private boolean running = false;
@@ -101,7 +102,8 @@ public class AgarIO extends Canvas implements Runnable{
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		g.translate(FWIDTH/2, FHEIGHT/2);
-		double scale = 64/p.getRadius();
+		if(p.getRadius() > 64)
+			scale = 64/p.getRadius();
 		g.scale(scale, scale);
 		g.translate(-p.getX(),-p.getY());
 		g.setColor(Color.gray);
