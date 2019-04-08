@@ -4,9 +4,8 @@
 package agario;
 
 import java.awt.Canvas;
-
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
 /**
@@ -15,7 +14,7 @@ import java.awt.image.BufferStrategy;
  */
 public class AgarIO extends Canvas implements Runnable{
 
-	public static final int WIDTH = 3600, HEIGHT = WIDTH/12*9;
+	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
 	public static int OX = WIDTH/3, OY = HEIGHT/3;
 	private Thread thread;
 	private boolean running = false;
@@ -31,6 +30,7 @@ public class AgarIO extends Canvas implements Runnable{
 		handler.addObject(p);
 		this.addMouseMotionListener(new MouseInput(p));
 		this.addMouseListener(new MouseInput(p));
+		this.addKeyListener(new KeyInput(p));
 		new Window(WIDTH/3, HEIGHT/3, "AgarIO", this);
 	}
 
@@ -77,7 +77,7 @@ public class AgarIO extends Canvas implements Runnable{
 			frames++;
 			if(System.currentTimeMillis()-timer > 1000) {
 				timer += 1000;
-				//System.out.println("FPS: "+frames);
+				System.out.println("FPS: "+frames);
 				frames = 0;
 			}
 		}
@@ -90,7 +90,8 @@ public class AgarIO extends Canvas implements Runnable{
 			this.createBufferStrategy(2);
 			return;
 		}
-		Graphics g = bs.getDrawGraphics();
+		
+		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 		g.setColor(Color.gray);
 		g.fillRect(-OX, -OY, WIDTH, HEIGHT);
 		handler.render(g);
