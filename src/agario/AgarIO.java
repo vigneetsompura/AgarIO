@@ -5,7 +5,6 @@ package agario;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
@@ -15,6 +14,7 @@ import java.awt.image.BufferStrategy;
  */
 public class AgarIO extends Canvas implements Runnable{
 
+	private static final long serialVersionUID = 4780645461398335058L;
 	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
 	public static final int FWIDTH = 1600, FHEIGHT = FWIDTH/16*9;
 	public double scale = 1;
@@ -36,7 +36,7 @@ public class AgarIO extends Canvas implements Runnable{
 		this.addMouseMotionListener(new MouseInput(p));
 		this.addMouseListener(new MouseInput(p));
 		this.addKeyListener(new KeyInput(p));
-		new Window(FWIDTH, FHEIGHT, "AgarIO", this);
+		
 	}
 
 	/**
@@ -44,7 +44,8 @@ public class AgarIO extends Canvas implements Runnable{
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new AgarIO();
+		AgarIO game = new AgarIO();
+		new Window(FWIDTH, FHEIGHT, "AgarIO", game);
 	}
 
 	synchronized public void start() {
@@ -61,6 +62,7 @@ public class AgarIO extends Canvas implements Runnable{
 			e.printStackTrace();
 		}
 	}
+	
 	@Override
 	public void run() {
 		long lastTime = System.nanoTime();
@@ -82,7 +84,7 @@ public class AgarIO extends Canvas implements Runnable{
 			frames++;
 			if(System.currentTimeMillis()-timer > 1000) {
 				timer += 1000;
-				//System.out.println("FPS: "+frames);
+				System.out.println("FPS: "+frames);
 				System.out.println("Score :" + (int) ((p.radius-32)*2));
 				frames = 0;
 			}
@@ -116,7 +118,6 @@ public class AgarIO extends Canvas implements Runnable{
 	}
 
 	private void tick() {
-		// TODO Auto-generated method stub
 		handler.tick();
 	}
 
