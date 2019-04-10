@@ -9,8 +9,8 @@ public class Player extends GameObject {
 	private int mouseX, mouseY, speed, boost;
 	
 	
-	public Player(int x, int y,ID id) {
-		super(x, y, 32, id);
+	public Player(int x, int y,Type type) {
+		super(x, y, 32, type);
 		mouseX = 0;
 		mouseY = 0;
 		this.speed = 5;

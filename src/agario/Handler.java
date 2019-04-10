@@ -10,7 +10,7 @@ public class Handler {
 	public void tick() {
 		for(GameObject object: objects) {
 			object.tick();
-			if(object.id == ID.Player) {
+			if(object.type == Type.Player) {
 				Player self = (Player) object;
 				for(GameObject other: objects) {
 					if(other != object) {

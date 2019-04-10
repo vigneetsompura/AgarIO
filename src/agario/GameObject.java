@@ -6,14 +6,14 @@ public abstract class GameObject {
 
 	protected int x,y;
 	protected double radius;
-	protected ID id;
+	protected Type type;
 	protected int velX, velY;
 	
-	public GameObject(int x, int y, double radius, ID id) {
+	public GameObject(int x, int y, double radius, Type id) {
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
-		this.id = id;
+		this.type = id;
 	}
 	
 	public abstract void tick();
@@ -35,12 +35,12 @@ public abstract class GameObject {
 		this.y = y;
 	}
 
-	public ID getId() {
-		return id;
+	public Type getId() {
+		return type;
 	}
 
-	public void setId(ID id) {
-		this.id = id;
+	public void setId(Type id) {
+		this.type = id;
 	}
 
 	public int getVelX() {
