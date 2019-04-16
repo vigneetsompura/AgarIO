@@ -1,6 +1,3 @@
-/**
- * 
- */
 package agario;
 
 import java.awt.Canvas;
@@ -17,11 +14,7 @@ public class Window extends Canvas {
 
 	private static final long serialVersionUID = 505941576144136988L;
 
-	/**
-	 * 
-	 */
 	public Window(int width, int height, String title, AgarIO game) {
-		// TODO Auto-generated constructor stub
 		JFrame frame = new JFrame(title);
 		frame.setPreferredSize(new Dimension(width,height));
 		frame.setMinimumSize(new Dimension(width,height));
@@ -35,9 +28,6 @@ public class Window extends Canvas {
 		game.requestFocusInWindow();
 	}
 
-	/**
-	 * @param arg0
-	 */
 	public Window(GraphicsConfiguration arg0) {
 		super(arg0);
 	}
