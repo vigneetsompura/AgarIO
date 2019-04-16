@@ -9,3 +9,4 @@
 
 #compiled files
 *.class
+/bin/
