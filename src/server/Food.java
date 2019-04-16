@@ -1,8 +1,13 @@
 package server;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Food extends GameObject {
+public class Food extends GameObject implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4324808548266228820L;
 	static Random r = new Random();
 	
 	public Food() {

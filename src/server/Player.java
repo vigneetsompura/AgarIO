@@ -1,11 +1,16 @@
 package server;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements Serializable{
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7903683352089744063L;
 	private int playerID;
 	private int mouseX, mouseY, speed, boost;
 	private Color color;

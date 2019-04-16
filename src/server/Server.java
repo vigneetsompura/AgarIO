@@ -30,8 +30,6 @@ public class Server implements Runnable{
 		// TODO Auto-generated method stub
 		Server server = new Server();
 		server.start();
-		
-
 	}
 	
 	synchronized public void start() {

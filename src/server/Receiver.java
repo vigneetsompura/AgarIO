@@ -35,7 +35,7 @@ public class Receiver implements Runnable {
 				packet = new DatagramPacket(buf, buf.length, address, port);
 				String received	= new String(packet.getData(), 0, packet.getLength());
 				String command = received.split(":")[0];
-				String parameters = received.split(":")[1];
+				String parameters = received.split(":")[1].trim();
 				if (command.equals("startGame")) {
 					int id = Integer.parseInt(parameters);
 					Player newPlayer = new Player(id);
@@ -47,8 +47,8 @@ public class Receiver implements Runnable {
 					
 				}else if (command.equals("locationUpdate")){
 					String[] p = parameters.split(",");
-					Player player = handler.getPlayer(Integer.parseInt(p[0]));
-					player.setXY(Integer.parseInt(p[1]), Integer.parseInt(p[2]));
+					Player player = handler.getPlayer(Integer.parseInt(p[0].trim()));
+					player.setXY(Integer.parseInt(p[1]), Integer.parseInt(p[2].trim()));
 					//send handler to player
 					Sender sender = new Sender(socket, address, port, handler);
 					Thread thread = new Thread(sender);

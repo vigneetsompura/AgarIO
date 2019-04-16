@@ -1,10 +1,15 @@
 package server;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Handler {
+public class Handler implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6790582735009419836L;
 	HashMap<Integer,Player> players = new HashMap<Integer, Player>();
 	LinkedList<GameObject> objects = new LinkedList<>();
 	
