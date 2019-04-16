@@ -1,13 +1,21 @@
 package server;
 
+import java.awt.Color;
+import java.util.Random;
+
 public class Player extends GameObject {
 
 
+	private int playerID;
 	private int mouseX, mouseY, speed, boost;
+	private Color color;
 
 
 	public Player(int x, int y) {
 		super(x, y, 32);
+		Random random = new Random();
+		this.playerID = random.nextInt(Integer.MAX_VALUE);
+		color = Color.getHSBColor(random.nextFloat(), (random.nextInt(2000) + 1000) / 10000f, 0.95f);
 		mouseX = 0;
 		mouseY = 0;
 		this.speed = 5;
@@ -18,7 +26,6 @@ public class Player extends GameObject {
 		updateVelocity();
 		if(boost!=1)
 			boost--;
-
 	}
 
 	public void updateVelocity() {
@@ -34,11 +41,21 @@ public class Player extends GameObject {
 	}
 
 
-	public void tryeat(Food f) {
-		if(distance(f) < (radius - f.radius)) {
-			this.setRadius(Math.sqrt(radius*radius + f.radius*f.radius));
-			f.respawn();
+	public void tryeat(GameObject object, Handler handler) {
+		if(distance(object) < (radius - object.radius)) {
+			this.setRadius(Math.sqrt(radius*radius + object.radius*object.radius));
+			if(object instanceof Food) {
+				Food food = (Food) object;
+				food.respawn();
+			}else if(object instanceof Player) {
+				Player player = (Player) object;
+				handler.removePlayer(player);
+			}
 		}
+	}
+	
+	public int getPlayerID() {
+		return this.playerID;
 	}
 }
 
