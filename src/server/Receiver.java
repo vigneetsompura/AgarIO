@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 
 public class Receiver implements Runnable {
 
@@ -12,7 +13,8 @@ public class Receiver implements Runnable {
 	private boolean running;
 	private byte[] buf = new byte[256];
 	
-	public Receiver(Handler handler) {
+	public Receiver(Handler handler) throws SocketException {
+		socket = new DatagramSocket(4445);
 		this.handler = handler;
 	}
 
@@ -39,25 +41,27 @@ public class Receiver implements Runnable {
 					Player newPlayer = new Player(id);
 					handler.addObject(newPlayer);
 					//send handler to player
+					Sender sender = new Sender(socket, address, port, handler);
+					Thread thread = new Thread(sender);
+					thread.start();
+					
 				}else if (command.equals("locationUpdate")){
 					String[] p = parameters.split(",");
 					Player player = handler.getPlayer(Integer.parseInt(p[0]));
 					player.setXY(Integer.parseInt(p[1]), Integer.parseInt(p[2]));
 					//send handler to player
+					Sender sender = new Sender(socket, address, port, handler);
+					Thread thread = new Thread(sender);
+					thread.start();
+					
 				}else if(command.equals("endGame")) {
 					int id = Integer.parseInt(parameters);
 					handler.removePlayer(id);
+					Sender sender = new Sender(socket, address, port, handler);
+					Thread thread = new Thread(sender);
+					thread.start();
 				}
-				try {
-					String reply = "Reply from server.";
-					byte[] replyByte = reply.getBytes();
-					DatagramPacket replyPacket = new DatagramPacket(replyByte, replyByte.length, address, port);
-					socket.send(replyPacket);
-	
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 			}
 			socket.close();
 	}

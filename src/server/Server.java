@@ -21,12 +21,16 @@ public class Server implements Runnable{
 		for(int i=0; i<100; i++) {
 			handler.addObject(new Food());
 		}
+		Receiver receiver = new Receiver(handler);
+		Thread t = new Thread(receiver);
+		t.start();
 	}
 
 	public static void main(String[] args) throws SocketException {
 		// TODO Auto-generated method stub
 		Server server = new Server();
 		server.start();
+		
 
 	}
 	
