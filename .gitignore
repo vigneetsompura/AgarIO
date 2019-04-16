@@ -6,6 +6,7 @@
 #Intellij files
 *.iml
 .idea
+/out/
 
 #compiled files
 *.class
