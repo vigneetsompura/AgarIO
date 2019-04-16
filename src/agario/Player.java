@@ -6,11 +6,12 @@ import java.awt.Graphics2D;
 public class Player extends GameObject {
 
 
-	private int mouseX, mouseY, speed, boost;
+	private int mouseX, mouseY, speed, boost, id;
 
 
-	public Player(int x, int y) {
+	public Player(int id, int x, int y) {
 		super(x, y, 32);
+		this.id = id;
 		mouseX = 0;
 		mouseY = 0;
 		this.speed = 5;
@@ -52,6 +53,11 @@ public class Player extends GameObject {
 		g.fillOval((int) (x-radius),(int) (y-radius), (int) radius*2,(int) radius*2);
 
 
+	}
+	
+	
+	public int getId() {
+		return this.id;
 	}
 
 	public int getMouseX() {

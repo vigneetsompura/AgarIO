@@ -6,9 +6,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import agario.Food;
-import agario.Handler;
-
 public class Server implements Runnable{
 	
 	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;

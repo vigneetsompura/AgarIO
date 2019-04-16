@@ -4,12 +4,15 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 /**
  * @author Vigneet Sompura
@@ -25,7 +28,7 @@ public class AgarIO extends Canvas implements Runnable{
 	private Thread thread;
 	private boolean running = false;
 	private Handler handler; 
-	
+
 	// Server communication variables.
 	private DatagramSocket clientSocket;
 	private InetAddress IPAddress;
@@ -34,17 +37,29 @@ public class AgarIO extends Canvas implements Runnable{
 	
 	Player p;
 	
-	public AgarIO() throws SocketException, UnknownHostException {
-		clientSocket = new DatagramSocket();
-        IPAddress = InetAddress.getByName("localhost");
-
-		handler = new Handler();
-		p = new Player(WIDTH/2,HEIGHT/2);
+	public AgarIO(String serverIp) throws IOException, ClassNotFoundException {
 		
-		for(int i=0; i<100; i++) {
-			handler.addObject(new Food());
-		}
-		handler.addObject(p);
+    	clientSocket = new DatagramSocket();
+        IPAddress = InetAddress.getByName(serverIp);
+        
+        Random random = new Random();
+        int id = random.nextInt(Integer.MAX_VALUE);
+        String sentence = "startGame:" + id;
+        outData = sentence.getBytes();
+        
+        DatagramPacket out = new DatagramPacket(outData, outData.length, IPAddress, 4445);
+        clientSocket.send(out);
+        
+        DatagramPacket in = new DatagramPacket(inData, inData.length);
+        clientSocket.receive(in);
+        
+        inData = in.getData();
+        
+        ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(inData));
+        handler = (Handler) objStream.readObject();
+
+		p = new Player(id, handler.getX(id), handler.getY(id));
+
 		this.addMouseMotionListener(new MouseInput(p));
 		this.addMouseListener(new MouseInput(p));
 		this.addKeyListener(new KeyInput(p));
@@ -53,13 +68,15 @@ public class AgarIO extends Canvas implements Runnable{
 
 	/**
 	 * @param args
-	 * @throws UnknownHostException 
-	 * @throws SocketException 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) throws SocketException, UnknownHostException {
+	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		// TODO Auto-generated method stub
-		AgarIO game = new AgarIO();
+		String serverIp = args[0];
+		AgarIO game = new AgarIO(serverIp);
 		new Window(FWIDTH, FHEIGHT, "AgarIO", game);
+		new Thread(new Sender(game.handler, game.p)).start();
 	}
 
 	synchronized public void start() {
@@ -134,26 +151,7 @@ public class AgarIO extends Canvas implements Runnable{
 	}
 
 	private void tick() {
-		handler.tick();
-		try {
-			inData = new byte[1024];
-            outData = new byte[1024];
-            
-			String sentence = "("+p.getX()+","+p.getY()+","+p.getRadius()+")";
-            outData = sentence.getBytes();
-            
-            DatagramPacket out = new DatagramPacket(outData, outData.length, IPAddress, 4445);
-            clientSocket.send(out);
-            
-            DatagramPacket in = new DatagramPacket(inData, inData.length);
-            clientSocket.receive(in);
-            
-            String modifiedSentence = new String(in.getData());
-            System.out.println(modifiedSentence);
-            
-		}catch (IOException e) {
-			
-		}
+		p.tick();
 	}
 
 	
