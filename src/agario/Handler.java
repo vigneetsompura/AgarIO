@@ -5,12 +5,12 @@ import java.util.LinkedList;
 
 public class Handler {
 
-	LinkedList<GameObject> objects = new LinkedList<GameObject>();
+	LinkedList<GameObject> objects = new LinkedList<>();
 	
 	public void tick() {
 		for(GameObject object: objects) {
 			object.tick();
-			if(object.type == Type.Player) {
+			if(object instanceof Player) {
 				Player self = (Player) object;
 				for(GameObject other: objects) {
 					if(other != object) {
