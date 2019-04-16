@@ -31,8 +31,12 @@ public class Handler {
 		}
 	}
 	
-	public void removePlayer(Player player) {
-		players.remove(player.getPlayerID());
+	public Player getPlayer(int id) {
+		return players.get(id);
+	}
+	
+	public void removePlayer(int playerID) {
+		players.remove(playerID);
 	}
 }
 

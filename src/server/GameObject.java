@@ -1,5 +1,7 @@
 package server;
 
+import java.util.Random;
+
 public abstract class GameObject {
 
 	protected int x,y;
@@ -9,6 +11,13 @@ public abstract class GameObject {
 	public GameObject(int x, int y, double radius) {
 		this.x = x;
 		this.y = y;
+		this.radius = radius;
+	}
+	
+	public GameObject(double radius) {
+		Random random = new Random();
+		this.x = random.nextInt(Server.WIDTH);
+		this.y = random.nextInt(Server.HEIGHT);
 		this.radius = radius;
 	}
 	
@@ -30,6 +39,11 @@ public abstract class GameObject {
 		this.y = y;
 	}
 
+	public void setXY(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	public int getVelX() {
 		return velX;
 	}
@@ -37,6 +51,7 @@ public abstract class GameObject {
 	public void setVelX(int velX) {
 		this.velX = velX;
 	}
+	
 
 	public int getVelY() {
 		return velY;

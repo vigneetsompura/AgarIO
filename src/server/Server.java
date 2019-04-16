@@ -6,61 +6,77 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
+import agario.Food;
+import agario.Handler;
+
 public class Server implements Runnable{
 	
 	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
 	public static final int FWIDTH = 1600, FHEIGHT = FWIDTH/16*9;
 
-	private DatagramSocket socket;
+	private Handler handler;
+	private Thread thread;
 	private boolean running;
-	private byte[] buf = new byte[256];
+	
 	
 	public Server() throws SocketException {
-		socket = new DatagramSocket(4445);
+		handler = new Handler();
+		for(int i=0; i<100; i++) {
+			handler.addObject(new Food());
+		}
 	}
 
 	public static void main(String[] args) throws SocketException {
 		// TODO Auto-generated method stub
-		new Thread(new Server()).start();
+		Server server = new Server();
+		server.start();
 
 	}
+	
+	synchronized public void start() {
+		thread = new Thread(this);
+		thread.start();
+		running = true;
+	}
+	
+	synchronized public void stop() {
+		try {
+			thread.join();
+			running = false;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void tick() {
+		handler.tick();
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		running = true;
-		System.out.println("Server thread started.");
-		while (running) {
-			DatagramPacket packet= new DatagramPacket(buf, buf.length);
-			try {
-				socket.receive(packet);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		
+		long lastTime = System.nanoTime();
+		double amountOfTicks = 60.0;
+		double ns = 1000000000 / amountOfTicks;
+		double delta = 0;
+		long timer = System.currentTimeMillis();
+		int frames = 0;
+		
+		while(running) {
+			long now = System.nanoTime();
+			delta += (now-lastTime)/ns;
+			lastTime = now;
+			while(delta >= 1) {
+				tick();
+				delta--;
 			}
-
-			InetAddress address = packet.getAddress();
-			int port = packet.getPort();
-			packet = new DatagramPacket(buf, buf.length, address, port);
-			String received	= new String(packet.getData(), 0, packet.getLength());
-
-			if (received.equals("end")) {
-				running = false;
-				continue;
-			}else {
-				System.out.println(received);
-			}
-			try {
-				String reply = "Reply from server.";
-				byte[] replyByte = reply.getBytes();
-				DatagramPacket replyPacket = new DatagramPacket(replyByte, replyByte.length, address, port);
-				socket.send(replyPacket);
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(System.currentTimeMillis()-timer > 1000) {
+				timer += 1000;
+				frames = 0;
 			}
 		}
-		socket.close();
+		stop();
 	}
 
 }

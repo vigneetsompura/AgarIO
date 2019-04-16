@@ -11,17 +11,17 @@ public class Player extends GameObject {
 	private Color color;
 
 
-	public Player(int x, int y) {
-		super(x, y, 32);
+	public Player(int playerID) {
+		super(32);
 		Random random = new Random();
-		this.playerID = random.nextInt(Integer.MAX_VALUE);
+		this.playerID = playerID;
 		color = Color.getHSBColor(random.nextFloat(), (random.nextInt(2000) + 1000) / 10000f, 0.95f);
 		mouseX = 0;
 		mouseY = 0;
 		this.speed = 5;
 		this.boost = 1;
 	}
-
+	
 	public void tick() {
 		updateVelocity();
 		if(boost!=1)
@@ -49,7 +49,7 @@ public class Player extends GameObject {
 				food.respawn();
 			}else if(object instanceof Player) {
 				Player player = (Player) object;
-				handler.removePlayer(player);
+				handler.removePlayer(player.getPlayerID());
 			}
 		}
 	}
