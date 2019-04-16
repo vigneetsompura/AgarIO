@@ -4,6 +4,12 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 /**
  * @author Vigneet Sompura
@@ -20,9 +26,18 @@ public class AgarIO extends Canvas implements Runnable{
 	private boolean running = false;
 	private Handler handler; 
 	
+	// Server communication variables.
+	private DatagramSocket clientSocket;
+	private InetAddress IPAddress;
+	private byte[] outData;
+    private byte[] inData;
+	
 	Player p;
 	
-	public AgarIO() {
+	public AgarIO() throws SocketException, UnknownHostException {
+		clientSocket = new DatagramSocket();
+        IPAddress = InetAddress.getByName("localhost");
+
 		handler = new Handler();
 		p = new Player(WIDTH/2,HEIGHT/2);
 		
@@ -36,7 +51,12 @@ public class AgarIO extends Canvas implements Runnable{
 		
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 * @throws UnknownHostException 
+	 * @throws SocketException 
+	 */
+	public static void main(String[] args) throws SocketException, UnknownHostException {
 		// TODO Auto-generated method stub
 		AgarIO game = new AgarIO();
 		new Window(FWIDTH, FHEIGHT, "AgarIO", game);
@@ -59,12 +79,14 @@ public class AgarIO extends Canvas implements Runnable{
 	
 	@Override
 	public void run() {
+		
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
 		int frames = 0;
+		
 		while(running) {
 			long now = System.nanoTime();
 			delta += (now-lastTime)/ns;
@@ -113,6 +135,25 @@ public class AgarIO extends Canvas implements Runnable{
 
 	private void tick() {
 		handler.tick();
+		try {
+			inData = new byte[1024];
+            outData = new byte[1024];
+            
+			String sentence = "("+p.getX()+","+p.getY()+","+p.getRadius()+")";
+            outData = sentence.getBytes();
+            
+            DatagramPacket out = new DatagramPacket(outData, outData.length, IPAddress, 4445);
+            clientSocket.send(out);
+            
+            DatagramPacket in = new DatagramPacket(inData, inData.length);
+            clientSocket.receive(in);
+            
+            String modifiedSentence = new String(in.getData());
+            System.out.println(modifiedSentence);
+            
+		}catch (IOException e) {
+			
+		}
 	}
 
 	
