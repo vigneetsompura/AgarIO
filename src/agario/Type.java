@@ -1,5 +1,5 @@
 package agario;
 
 public enum Type {
-	Player(), Food();
+	Player, Food
 }

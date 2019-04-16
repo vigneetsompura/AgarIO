@@ -1,6 +1,3 @@
-/**
- * 
- */
 package agario;
 
 import java.awt.Canvas;
@@ -39,9 +36,6 @@ public class AgarIO extends Canvas implements Runnable{
 		
 	}
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AgarIO game = new AgarIO();
