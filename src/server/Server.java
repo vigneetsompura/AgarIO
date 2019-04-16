@@ -7,6 +7,9 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 public class Server implements Runnable{
+	
+	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
+	public static final int FWIDTH = 1600, FHEIGHT = FWIDTH/16*9;
 
 	private DatagramSocket socket;
 	private boolean running;
