@@ -51,6 +51,7 @@ public class Server implements Runnable{
 				byte[] replyByte = reply.getBytes();
 				DatagramPacket replyPacket = new DatagramPacket(replyByte, replyByte.length, address, port);
 				socket.send(replyPacket);
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
