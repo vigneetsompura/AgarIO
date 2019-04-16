@@ -24,10 +24,10 @@ public class AgarIO extends Canvas implements Runnable{
 	
 	public AgarIO() {
 		handler = new Handler();
-		p = new Player(WIDTH/2,HEIGHT/2, Type.Player);
+		p = new Player(WIDTH/2,HEIGHT/2);
 		
 		for(int i=0; i<100; i++) {
-			handler.addObject(new Food(Type.Food));
+			handler.addObject(new Food());
 		}
 		handler.addObject(p);
 		this.addMouseMotionListener(new MouseInput(p));

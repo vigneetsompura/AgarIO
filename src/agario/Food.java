@@ -7,8 +7,8 @@ import java.util.Random;
 public class Food extends GameObject {
 	static Random r = new Random();
 	
-	public Food(Type type) {
-		super(r.nextInt(AgarIO.WIDTH-32)+16, r.nextInt(AgarIO.HEIGHT-32)+16, 16,type);
+	public Food() {
+		super(r.nextInt(AgarIO.WIDTH-32)+16, r.nextInt(AgarIO.HEIGHT-32)+16, 16);
 	}
 
 	@Override
