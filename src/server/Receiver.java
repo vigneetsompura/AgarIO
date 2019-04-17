@@ -56,17 +56,15 @@ public class Receiver implements Runnable {
 
     private void executeCommand(int port, String command, String parameters, InetAddress address) {
         switch (command) {
-            case "startGame": {
+            case "startGame":
                 startGame(address, port, parameters);
                 break;
-            }
             case "locationUpdate":
                 locationUpdate(address, port, parameters);
                 break;
-            case "endGame": {
+            case "endGame":
                 endGame(address, port, parameters);
                 break;
-            }
         }
     }
 
