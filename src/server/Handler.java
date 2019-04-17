@@ -1,10 +1,7 @@
 package server;
 
-import agario.Food;
 import agario.Game;
 import agario.Player;
-
-import java.util.List;
 
 class Handler {
 
@@ -12,10 +9,6 @@ class Handler {
 
     Handler() {
         this.game = new Game();
-    }
-
-    private List<Food> getFoodList() {
-        return game.getFoodList();
     }
 
     Player getPlayer(int playerID) {
@@ -40,7 +33,7 @@ class Handler {
 
     void tick() {
         game.lock();
-        List.copyOf(game.getPlayers().values())
+        game.getPlayers()
                 .stream()
                 .filter(predator -> getPlayer(predator.getPlayerID()) != null)
                 .forEach(this::tryEat);
@@ -48,15 +41,15 @@ class Handler {
     }
 
     private void tryEat(Player predator) {
-        getFoodList().forEach(predator::tryEat);
+        game.getFoodList().forEach(predator::tryEat);
         tryEatPrey(predator);
     }
 
     private void tryEatPrey(Player predator) {
-        List.copyOf(game.getPlayers().values())
+        game.getPlayers()
                 .stream()
                 .filter(prey -> prey.isNotPredator(predator))
-                .filter(predator::ifAtePrey)
+                .filter(predator::didEatPrey)
                 .forEach(prey -> removePlayer(prey.getPlayerID()));
     }
 }

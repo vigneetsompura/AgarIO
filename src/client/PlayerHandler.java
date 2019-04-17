@@ -6,7 +6,12 @@ import agario.Player;
 class PlayerHandler {
 
     private Player player;
-    private int velX, velY, mouseX, mouseY, speed, boost;
+    private int velX;
+    private int velY;
+    private int mouseX;
+    private int mouseY;
+    private int speed;
+    private int boost;
 
     PlayerHandler(Player player) {
         this.player = player;
@@ -20,7 +25,7 @@ class PlayerHandler {
         updateVelocity();
         int x = moveWithConstraints(getX() + velX, (int) getRadius(), Game.WIDTH - (int) getRadius());
         int y = moveWithConstraints(getY() + velY, (int) getRadius(), Game.HEIGHT - (int) getRadius());
-        setXY(x, y);
+        player.setXY(x, y);
         if (boost != 1)
             boost--;
     }
@@ -29,11 +34,11 @@ class PlayerHandler {
         if (mouseX != 0 || mouseY != 0) {
             int velX = (int) ((speed * boost * mouseX) / Math.hypot(mouseX, mouseY));
             int velY = (int) ((speed * boost * mouseY) / Math.hypot(mouseX, mouseY));
-            this.setVelX(velX);
-            this.setVelY(velY);
+            this.velX = velX;
+            this.velY = velY;
         } else {
-            this.setVelX(0);
-            this.setVelY(0);
+            this.velX = 0;
+            this.velY = 0;
         }
     }
 
@@ -43,14 +48,6 @@ class PlayerHandler {
         if (x < min)
             return min;
         return x;
-    }
-
-    private void setVelX(int velX) {
-        this.velX = velX;
-    }
-
-    private void setVelY(int velY) {
-        this.velY = velY;
     }
 
     void setMouseX(int mouseX) {
@@ -71,10 +68,6 @@ class PlayerHandler {
 
     int getY() {
         return player.getY();
-    }
-
-    private void setXY(int x, int y) {
-        player.setXY(x, y);
     }
 
     double getRadius() {

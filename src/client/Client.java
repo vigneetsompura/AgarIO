@@ -14,7 +14,6 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -152,15 +151,17 @@ public class Client extends Canvas implements Runnable {
         List<Food> foodList = game.getFoodList();
         for (Food food : foodList) {
             g.setColor(Color.YELLOW);
-            g.fillOval(food.getX() - (int) Food.RADIUS, food.getY() - (int) Food.RADIUS, (int) Food.RADIUS * 2, (int) Food.RADIUS * 2);
+            int radius = (int) Food.RADIUS;
+            g.fillOval(food.getX() - radius, food.getY() - radius, radius * 2, radius * 2);
         }
 
-        List<Player> players = new ArrayList<>(game.getPlayers().values());
+        List<Player> players = game.getPlayers();
         players.sort(Comparator.comparingDouble(Player::getRadius));
 
         for (Player player : players) {
             g.setColor(player.getColor());
-            g.fillOval(player.getX() - (int) player.getRadius(), player.getY() - (int) player.getRadius(), (int) player.getRadius() * 2, (int) player.getRadius() * 2);
+            int radius = (int) player.getRadius();
+            g.fillOval(player.getX() - radius, player.getY() - radius, radius * 2, radius * 2);
         }
 
         g.dispose();

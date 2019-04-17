@@ -20,7 +20,7 @@ public class ResponseHandler implements Runnable {
     @Override
     public void run() {
         try {
-            Game game = client.readObjectFromSocket(this.inData,this.clientSocket);
+            Game game = client.readObjectFromSocket(this.inData, this.clientSocket);
             Player player = client.getPlayer(game);
             if (player != null) {
                 client.setGame(game);

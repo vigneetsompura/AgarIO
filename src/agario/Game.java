@@ -11,16 +11,10 @@ public class Game implements Serializable {
     public static final int WIDTH = 4800, HEIGHT = WIDTH / 16 * 9;
     private Map<Integer, Player> players;
     private List<Food> foodList;
-    private Random random;
 
     public Game() {
         this.players = new HashMap<>();
         this.foodList = new ArrayList<>();
-        this.random = new Random();
-    }
-
-    public Map<Integer, Player> getPlayers() {
-        return players;
     }
 
     public List<Food> getFoodList() {
@@ -44,6 +38,7 @@ public class Game implements Serializable {
     }
 
     private int calc(int param) {
+        Random random = new Random();
         return random.nextInt(param - (int) Food.RADIUS * 2) + (int) Food.RADIUS;
     }
 
@@ -53,5 +48,9 @@ public class Game implements Serializable {
 
     public void unlock() {
         this.lock.unlock();
+    }
+
+    public List<Player> getPlayers() {
+        return List.copyOf(players.values());
     }
 }

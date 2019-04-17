@@ -58,7 +58,7 @@ public class Player implements Serializable {
         }
     }
 
-    public boolean ifAtePrey(Player prey) {
+    public boolean didEatPrey(Player prey) {
         if (Point2D.distance(getX(), getY(), prey.getX(), prey.getY()) < (getRadius() - prey.getRadius())) {
             setRadius(Math.hypot(getRadius(), prey.getRadius()));
             return true;
