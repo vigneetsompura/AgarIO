@@ -1,29 +1,36 @@
 package agario;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.util.Random;
+import java.io.Serializable;
 
-public class Food extends GameObject {
-	static Random r = new Random();
+public class Food implements Serializable{
 	
-	public Food() {
-		super(r.nextInt(AgarIO.WIDTH-32)+16, r.nextInt(AgarIO.HEIGHT-32)+16, 16);
+	private static final long serialVersionUID = 5494431746711149112L;
+	private int x,y;
+	public static double RADIUS = 16;
+	
+	public Food(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
-	@Override
-	public void tick() {
+	public int getX() {
+		return x;
 	}
 
-	@Override
-	public void render(Graphics2D g) {
-		g.setColor(Color.yellow);
-		g.fillOval((int) (x-radius),(int) (y-radius), (int) radius*2,(int) radius*2);
+	public void setX(int x) {
+		this.x = x;
 	}
 
-	public void respawn() {
-		this.setX(r.nextInt(AgarIO.WIDTH-32)+16);
-		this.setY(r.nextInt(AgarIO.HEIGHT-32)+16);
+	public int getY() {
+		return y;
 	}
 
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public void setXY(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 }
