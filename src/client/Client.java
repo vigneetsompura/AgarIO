@@ -33,7 +33,7 @@ public class Client extends Canvas implements Runnable {
     private PlayerHandler playerHandler;
     private JFrame frame;
 
-    private Client(String serverIP) throws IOException, ClassNotFoundException {
+    public Client(String serverIP) throws IOException, ClassNotFoundException {
         this.serverIP = InetAddress.getByName(serverIP);
         clientSocket = new DatagramSocket();
         Random random = new Random();
@@ -59,9 +59,9 @@ public class Client extends Canvas implements Runnable {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, IOException {
-        String serverIp = args[0];
-        Client game = new Client(serverIp);
-        new Window(FWIDTH, FHEIGHT, "AgarIO", game);
+//        String serverIp = args[0];
+//        Client game = new Client(serverIp);
+        new Window(FWIDTH, FHEIGHT, "AgarIO");
     }
 
     synchronized void start(JFrame frame) {
