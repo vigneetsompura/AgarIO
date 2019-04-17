@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Food implements Serializable{
 	
 	private static final long serialVersionUID = 5494431746711149112L;
-	public int x,y;
+	private int x,y;
 	public static double RADIUS = 16;
 	
 	public Food(int x, int y) {

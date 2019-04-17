@@ -7,6 +7,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import agario.Player;
+
 public class Sender implements Runnable {
 
 	private Handler handler;
@@ -26,6 +28,10 @@ public class Sender implements Runnable {
 		try {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		ObjectOutput output = new ObjectOutputStream(byteStream);
+		
+		for(Player p: handler.getPlayers().values()) {
+			System.out.println(p.getPlayerID()+","+p.getX()+","+p.getY());
+		}
 		output.writeObject(handler.getGame());
 		output.close();
 		byte[] message = byteStream.toByteArray();

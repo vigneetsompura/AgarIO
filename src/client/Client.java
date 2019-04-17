@@ -3,6 +3,7 @@ package client;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -10,9 +11,16 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
+
+import javax.swing.JFrame;
+
+import agario.Food;
+import agario.Game;
+import agario.Player;
 
 /**
  * @author Vigneet Sompura
@@ -20,34 +28,36 @@ import java.util.Random;
  */
 public class Client extends Canvas implements Runnable{
 
-	private static final long serialVersionUID = 4780645461398335058L;
-	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
+	private static final long serialVersionUID = 7846764236102367675L;
 	public static final int FWIDTH = 1600, FHEIGHT = FWIDTH/16*9;
-	public double scale = 1;
 	
+	public double scale = 1;
+	private Random random;
 	private Thread thread;
 	private boolean running = false;
-	private Handler handler; 
-
+	private Game game; 
+	private Renderer renderer;
 	// Server communication variables.
 	private DatagramSocket clientSocket;
-	private InetAddress IPAddress;
-	private byte[] outData;
-    private byte[] inData;
+	private InetAddress serverIP;
+	private byte[] outData = new byte[65500];
+    private byte[] inData = new byte[65500];
+	private PlayerHandler playerHandler;
+	private BufferStrategy bs;
+	private Graphics2D g = null;
+	private boolean flag = false;
+	private JFrame frame;
 	
-	Player p;
-	
-	public Client(String serverIp) throws IOException, ClassNotFoundException {
-		
-    	clientSocket = new DatagramSocket();
-        IPAddress = InetAddress.getByName(serverIp);
+	public Client(String serverIP) throws IOException, ClassNotFoundException {
+        this.serverIP = InetAddress.getByName(serverIP);
+        clientSocket = new DatagramSocket();
+        random = new Random();
+        int playerID = random.nextInt(Integer.MAX_VALUE);
+        String startMessage = "startGame:" + playerID;
+        outData = startMessage.getBytes();
         
-        Random random = new Random();
-        int id = random.nextInt(Integer.MAX_VALUE);
-        String sentence = "startGame:" + id;
-        outData = sentence.getBytes();
         
-        DatagramPacket out = new DatagramPacket(outData, outData.length, IPAddress, 4445);
+        DatagramPacket out = new DatagramPacket(outData, outData.length, this.serverIP, 4445);
         clientSocket.send(out);
         
         DatagramPacket in = new DatagramPacket(inData, inData.length);
@@ -56,13 +66,13 @@ public class Client extends Canvas implements Runnable{
         inData = in.getData();
         
         ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(inData));
-        handler = (Handler) objStream.readObject();
+        game = (Game) objStream.readObject();
 
-		p = new Player(id, handler.getX(id), handler.getY(id));
+		playerHandler = new PlayerHandler(game.getPlayer(playerID));
 
-		this.addMouseMotionListener(new MouseInput(p));
-		this.addMouseListener(new MouseInput(p));
-		this.addKeyListener(new KeyInput(p));
+		this.addMouseMotionListener(new MouseInput(playerHandler));
+		this.addMouseListener(new MouseInput(playerHandler));
+		this.addKeyListener(new KeyInput(playerHandler));
 		
 	}
 
@@ -73,20 +83,24 @@ public class Client extends Canvas implements Runnable{
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		// TODO Auto-generated method stub
-		String serverIp = args[0];
+		String serverIp = "localhost";
 		Client game = new Client(serverIp);
 		new Window(FWIDTH, FHEIGHT, "AgarIO", game);
-		new Thread(new Sender(game.handler, game.p)).start();
 	}
 
-	synchronized public void start() {
+	synchronized public void start(JFrame frame) {
+		this.frame = frame;
 		thread = new Thread(this);
 		thread.start();
 		running = true;
+		
+		
 	}
 	
 	synchronized public void stop() {
 		try {
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+			renderer.stop();
 			thread.join();
 			running = false;
 		}catch(Exception e) {
@@ -109,7 +123,12 @@ public class Client extends Canvas implements Runnable{
 			delta += (now-lastTime)/ns;
 			lastTime = now;
 			while(delta >= 1) {
-				tick();
+				try {
+					tick();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				delta--;
 			}
 			if(running)
@@ -117,12 +136,37 @@ public class Client extends Canvas implements Runnable{
 			frames++;
 			if(System.currentTimeMillis()-timer > 1000) {
 				timer += 1000;
-				System.out.println("FPS: "+frames);
-				System.out.println("Score :" + (int) ((p.radius-32)*2));
+				//System.out.println("FPS: "+frames);
+				//System.out.println("Score :" + (int) ((playerHandler.getRadius()-32)*2));
 				frames = 0;
 			}
 		}
 		stop();
+	}
+
+	
+
+	private void tick() throws IOException {
+		playerHandler.tick();
+		String updateMessage = "locationUpdate:" + playerHandler.getPlayerID()+ "," + playerHandler.getX() + "," + playerHandler.getY();
+        outData = updateMessage.getBytes();
+        
+        DatagramPacket out = new DatagramPacket(outData, outData.length, this.serverIP, 4445);
+        clientSocket.send(out);
+		
+        ResponseHandler responseHandler = new ResponseHandler(clientSocket, this);
+        responseHandler.start();
+        
+	}
+	
+	public void setupRender() {
+		bs = this.getBufferStrategy();
+		if (bs == null) {
+			this.createBufferStrategy(2);
+			return;
+		}
+		
+		g = (Graphics2D) bs.getDrawGraphics();
 	}
 
 	private void render() {
@@ -134,24 +178,54 @@ public class Client extends Canvas implements Runnable{
 		
 		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
+		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		
 		g.translate(FWIDTH/2, FHEIGHT/2);
-		if(p.getRadius() > 64)
-			scale = 64/p.getRadius();
+		if(playerHandler.getRadius() > 64)
+			scale = 64/playerHandler.getRadius();
 		g.scale(scale, scale);
-		g.translate(-p.getX(),-p.getY());
+		g.translate(-playerHandler.getX(),-playerHandler.getY());
 		g.setColor(Color.gray);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
+		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		g.setColor(Color.RED);
 		g.drawRect(0, 0, WIDTH, HEIGHT);
-		handler.render(g);
+				
+		ArrayList<Food> foodList = game.getFoodList();
+		for(Food food: foodList) {
+			g.setColor(Color.YELLOW);
+			g.fillOval(food.getX()- (int) Food.RADIUS, food.getY()- (int) Food.RADIUS, (int)food.RADIUS * 2, (int)food.RADIUS * 2);
+		}
+		
+		ArrayList<Player> players = new ArrayList<Player> (game.getPlayers().values());
+		Collections.sort(players, new Comparator<Player>(){
+		     public int compare(Player o1, Player o2){
+		         if(o1.getRadius() == o2.getRadius())
+		             return 0;
+		         return o1.getRadius() < o2.getRadius() ? -1 : 1;
+		     }
+		});
+		
+		for(Player player: players) {
+			
+				g.setColor(player.getColor());
+				g.fillOval(player.getX()-(int)player.getRadius(), player.getY()-(int)player.getRadius(), (int) player.getRadius()*2, (int) player.getRadius()*2);
+
+		}
+		
 		g.dispose();
 		bs.show();
 	}
+	
+	public Game getGame() {
+		return game;
+	}
 
-	private void tick() {
-		p.tick();
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	public PlayerHandler getPlayerHandler() {
+		return playerHandler;
 	}
 
 	

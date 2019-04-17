@@ -5,23 +5,23 @@ import java.awt.event.MouseEvent;
 
 public class MouseInput extends MouseAdapter{
 
-	Player p;
+	PlayerHandler playerHandler;
 	boolean flag = true;
 	
-	public MouseInput(Player g) {
-		this.p = g;
+	public MouseInput(PlayerHandler playerHandler) {
+		this.playerHandler = playerHandler;
 	}
 	
 	public void mouseMoved(MouseEvent e) {
-		//System.out.println("Mouse Move");
-		p.setMouseX(e.getX()-Client.FWIDTH/2);
-		p.setMouseY(e.getY()-Client.FHEIGHT/2);
+		System.out.println(playerHandler.getX()+","+playerHandler.getY());
+		playerHandler.setMouseX(e.getX()-Client.FWIDTH/2);
+		playerHandler.setMouseY(e.getY()-Client.FHEIGHT/2);
 	}
 	
 	public void mouseExited(MouseEvent e) {
-		//System.out.println("Mouse Exit");
-		p.setMouseX(0);
-		p.setMouseY(0);
+		System.out.println("Mouse Exit");
+		playerHandler.setMouseX(0);
+		playerHandler.setMouseY(0);
 	}
 	
 //	public void mousePressed(MouseEvent e) {

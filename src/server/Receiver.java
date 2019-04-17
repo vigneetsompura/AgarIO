@@ -52,7 +52,7 @@ public class Receiver implements Runnable {
 				InetAddress address = packet.getAddress();
 				int port = packet.getPort();
 				String received	= new String(packet.getData(), 0, packet.getLength());
-				
+				//System.out.println( received);
 				String command = received.split(":")[0];
 				String parameters = received.split(":")[1];
 				
@@ -70,11 +70,13 @@ public class Receiver implements Runnable {
 				}else if (command.equals("locationUpdate")){
 					String[] p = parameters.split(",");
 					Player player = handler.getPlayer(Integer.parseInt(p[0].trim()));
+					if(player!=null) {
 					player.setXY(Integer.parseInt(p[1].trim()), Integer.parseInt(p[2].trim()));
 					//send handler to player
 					Sender sender = new Sender(socket, address, port, handler);
 					Thread thread = new Thread(sender);
 					thread.start();
+					}
 					
 				}else if(command.equals("endGame")) {
 					int playerID = Integer.parseInt(parameters);

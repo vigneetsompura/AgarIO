@@ -16,6 +16,7 @@ public class Player implements Serializable{
 		this.x = x;
 		this.y = y;
 		this.color = color;
+		this.radius = 32;
 	}
 	
 	public Player(int playerID, int x, int y) {
@@ -24,6 +25,7 @@ public class Player implements Serializable{
 		this.x = x;
 		this.y = y;
 		this.color = Color.getHSBColor(random.nextFloat(), (random.nextInt(2000) + 1000) / 10000f, 0.95f);
+		this.radius = 32;
 	}
 
 	public int getX() {
