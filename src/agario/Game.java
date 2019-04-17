@@ -4,6 +4,15 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+* The HelloWorld program implements an application that
+* simply displays "Hello World!" to the standard output.
+*
+* @author  Vigneet Sompura
+* @version 1.0
+* @updated   04-17-2019 
+*/
+
 public class Game implements Serializable {
 
     private ReentrantLock lock = new ReentrantLock();

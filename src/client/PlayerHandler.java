@@ -69,15 +69,15 @@ class PlayerHandler {
         this.boost = boost;
     }
 
-    int getX() {
+    private int getX() {
         return player.getX();
     }
 
-    int getY() {
+    private int getY() {
         return player.getY();
     }
 
-    double getRadius() {
+    private double getRadius() {
         return player.getRadius();
     }
 
