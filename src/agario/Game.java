@@ -51,6 +51,6 @@ public class Game implements Serializable {
     }
 
     public List<Player> getPlayers() {
-        return List.copyOf(players.values());
+        return new ArrayList<>(players.values());
     }
 }
