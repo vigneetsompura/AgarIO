@@ -83,7 +83,7 @@ public class Client extends Canvas implements Runnable{
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		// TODO Auto-generated method stub
-		String serverIp = "localhost";
+		String serverIp = args[0];
 		Client game = new Client(serverIp);
 		new Window(FWIDTH, FHEIGHT, "AgarIO", game);
 	}
