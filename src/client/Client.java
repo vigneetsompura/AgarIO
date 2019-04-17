@@ -18,7 +18,7 @@ import java.util.Random;
  * @author Vigneet Sompura
  *
  */
-public class AgarIO extends Canvas implements Runnable{
+public class Client extends Canvas implements Runnable{
 
 	private static final long serialVersionUID = 4780645461398335058L;
 	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
@@ -37,7 +37,7 @@ public class AgarIO extends Canvas implements Runnable{
 	
 	Player p;
 	
-	public AgarIO(String serverIp) throws IOException, ClassNotFoundException {
+	public Client(String serverIp) throws IOException, ClassNotFoundException {
 		
     	clientSocket = new DatagramSocket();
         IPAddress = InetAddress.getByName(serverIp);
@@ -74,7 +74,7 @@ public class AgarIO extends Canvas implements Runnable{
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		// TODO Auto-generated method stub
 		String serverIp = args[0];
-		AgarIO game = new AgarIO(serverIp);
+		Client game = new Client(serverIp);
 		new Window(FWIDTH, FHEIGHT, "AgarIO", game);
 		new Thread(new Sender(game.handler, game.p)).start();
 	}

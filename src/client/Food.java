@@ -8,7 +8,7 @@ public class Food extends GameObject {
 	static Random r = new Random();
 	
 	public Food() {
-		super(r.nextInt(AgarIO.WIDTH-32)+16, r.nextInt(AgarIO.HEIGHT-32)+16, 16);
+		super(r.nextInt(Client.WIDTH-32)+16, r.nextInt(Client.HEIGHT-32)+16, 16);
 	}
 
 	@Override
@@ -22,8 +22,8 @@ public class Food extends GameObject {
 	}
 
 	public void respawn() {
-		this.setX(r.nextInt(AgarIO.WIDTH-32)+16);
-		this.setY(r.nextInt(AgarIO.HEIGHT-32)+16);
+		this.setX(r.nextInt(Client.WIDTH-32)+16);
+		this.setY(r.nextInt(Client.HEIGHT-32)+16);
 	}
 
 }

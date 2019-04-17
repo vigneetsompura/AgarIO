@@ -20,7 +20,7 @@ public class Window extends Canvas {
 	/**
 	 * 
 	 */
-	public Window(int width, int height, String title, AgarIO game) {
+	public Window(int width, int height, String title, Client game) {
 		// TODO Auto-generated constructor stub
 		JFrame frame = new JFrame(title);
 		frame.setPreferredSize(new Dimension(width,height));

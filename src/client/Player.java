@@ -20,8 +20,8 @@ public class Player extends GameObject {
 
 	public void tick() {
 		updateVelocity();
-		x  = moveWithConstraints(x+velX,(int)radius,AgarIO.WIDTH-(int)radius);
-		y = moveWithConstraints(y+velY,(int)radius,AgarIO.HEIGHT-(int)radius);
+		x  = moveWithConstraints(x+velX,(int)radius,Client.WIDTH-(int)radius);
+		y = moveWithConstraints(y+velY,(int)radius,Client.HEIGHT-(int)radius);
 		if(boost!=1)
 			boost--;
 
