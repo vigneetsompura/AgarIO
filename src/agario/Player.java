@@ -1,11 +1,12 @@
 package agario;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Player{
+public class Player implements Serializable{
 
+	private static final long serialVersionUID = -1295501542406655467L;
 	private int playerID, x, y;
 	private double radius;
 	private Color color;

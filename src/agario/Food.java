@@ -1,10 +1,10 @@
 package agario;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.util.Random;
+import java.io.Serializable;
 
-public class Food {
+public class Food implements Serializable{
+	
+	private static final long serialVersionUID = 5494431746711149112L;
 	public int x,y;
 	public static double RADIUS = 16;
 	
