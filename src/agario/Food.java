@@ -4,6 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.Serializable;
 
+/**
+* The HelloWorld program implements an application that
+* simply displays "Hello World!" to the standard output.
+*
+* @author  Vigneet Sompura
+* @version 1.0
+* @updated   04-17-2019 
+*/
+
 public class Food implements Serializable {
 
     private static final long serialVersionUID = 5494431746711149112L;

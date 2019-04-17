@@ -5,6 +5,15 @@ import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+* The HelloWorld program implements an application that
+* simply displays "Hello World!" to the standard output.
+*
+* @author  Vigneet Sompura
+* @version 1.0
+* @updated   04-17-2019 
+*/
+
 public class Player implements Serializable {
 
     private static final long serialVersionUID = -1295501542406655467L;
