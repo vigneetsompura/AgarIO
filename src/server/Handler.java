@@ -1,47 +1,76 @@
 package server;
 
-import java.io.Serializable;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.Random;
 
-public class Handler implements Serializable{
+import agario.Food;
+import agario.Game;
+import agario.Player;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6790582735009419836L;
-	HashMap<Integer,Player> players = new HashMap<Integer, Player>();
-	LinkedList<GameObject> objects = new LinkedList<>();
+public class Handler{
+
+	private Game game;
+	
+	public Handler() {
+		this.game = new Game();
+	}
+
+	public HashMap<Integer, Player> getPlayers() {
+		return game.getPlayers();
+	}
+
+	public ArrayList<Food> getFoodList() {
+		return game.getFoodList();
+	}
+
+	public Player getPlayer(int playerID) {
+		return game.getPlayer(playerID);
+	}
+
+	public void addPlayer(Player player) {
+		game.addPlayer(player);
+	}
+
+	public void removePlayer(int playerID) {
+		game.removePlayer(playerID);
+	}
+
+	public void addFood(Food food) {
+		game.addFood(food);
+	}
+	
+	public Game getGame() {
+		return this.game;
+	}
 	
 	public void tick() {
-		for(GameObject object: objects) {
-			object.tick();
-			if(object instanceof Player) {
-				Player self = (Player) object;
-				for(GameObject other: objects) {
-					if(other != object) {
-						self.tryeat(other, this);
-					}
+		for(Player predator: getPlayers().values()) {
+			for(Food food: getFoodList()) {
+				tryEat(predator, food);
+			}
+			for(Player prey: getPlayers().values()) {
+				if(predator.getPlayerID() != prey.getPlayerID()) {
+					tryEat(predator, prey);
 				}
 			}
 		}
 	}
-
-	public void addObject(GameObject object) {
-		if(object instanceof Food)
-			objects.add(object);
-		else if (object instanceof Player) {
-			Player player = (Player) object;
-			players.put(player.getPlayerID(), player);
+	
+	public void tryEat(Player player, Food food) {
+		if(Point2D.distance(player.getX(), player.getY(), food.getX(), food.getY())< player.getRadius() - Food.RADIUS) {
+			player.setRadius(Math.hypot(player.getRadius(), Food.RADIUS));
+			Random random = new Random();
+			food.setXY(random.nextInt(Server.WIDTH), random.nextInt(Server.HEIGHT));
 		}
 	}
 	
-	public Player getPlayer(int id) {
-		return players.get(id);
-	}
-	
-	public void removePlayer(int playerID) {
-		players.remove(playerID);
+	public void tryEat(Player predator, Player prey) {
+		if(Point2D.distance(predator.getX(), predator.getY(), prey.getX(), prey.getY()) < predator.getRadius()-prey.getRadius()) {
+			predator.setRadius(Math.hypot(predator.getRadius(), prey.getRadius()));
+			game.removePlayer(prey.getPlayerID());
+		}
 	}
 }
 

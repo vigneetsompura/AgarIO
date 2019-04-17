@@ -1,7 +1,7 @@
 /**
  * 
  */
-package agario;
+package client;
 
 import java.awt.Canvas;
 import java.awt.Dimension;

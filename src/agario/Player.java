@@ -2,94 +2,61 @@ package agario;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Random;
 
-public class Player extends GameObject {
+public class Player{
 
+	private int playerID, x, y;
+	private double radius;
+	private Color color;
 
-	private int mouseX, mouseY, speed, boost, id;
-
-
-	public Player(int id, int x, int y) {
-		super(x, y, 32);
-		this.id = id;
-		mouseX = 0;
-		mouseY = 0;
-		this.speed = 5;
-		this.boost = 1;
-	}
-
-	public void tick() {
-		updateVelocity();
-		x  = moveWithConstraints(x+velX,(int)radius,AgarIO.WIDTH-(int)radius);
-		y = moveWithConstraints(y+velY,(int)radius,AgarIO.HEIGHT-(int)radius);
-		if(boost!=1)
-			boost--;
-
-	}
-
-	public void updateVelocity() {
-		if(mouseX!=0 || mouseY!=0) {
-			int velX = (int) ((speed*boost*mouseX)/Math.sqrt((mouseX*mouseX + mouseY*mouseY)));
-			int velY = (int) ((speed*boost*mouseY)/Math.sqrt((mouseX*mouseX + mouseY*mouseY)));
-			this.setVelX(velX);
-			this.setVelY(velY);
-		}else {
-			this.setVelX(0);
-			this.setVelY(0);
-		}
-	}
-
-
-	public void tryeat(Food f) {
-		if(distance(f) < (radius - f.radius)) {
-			this.setRadius(Math.sqrt(radius*radius + f.radius*f.radius));
-			f.respawn();
-		}
-	}
-
-	public void render(Graphics2D g) {
-		// TODO Auto-generated method stub
-		g.setColor(Color.CYAN);
-		g.fillOval((int) (x-radius),(int) (y-radius), (int) radius*2,(int) radius*2);
-
-
+	public Player(int playerID, int x, int y, Color color) {
+		this.playerID = playerID;
+		this.x = x;
+		this.y = y;
+		this.color = color;
 	}
 	
-	
-	public int getId() {
-		return this.id;
+	public Player(int playerID, int x, int y) {
+		Random random = new Random();
+		this.playerID = playerID;
+		this.x = x;
+		this.y = y;
+		this.color = Color.getHSBColor(random.nextFloat(), (random.nextInt(2000) + 1000) / 10000f, 0.95f);
 	}
 
-	public int getMouseX() {
-		return mouseX;
-	}
-
-	public void setMouseX(int mouseX) {
-		this.mouseX = mouseX;
-	}
-
-	public int getMouseY() {
-		return mouseY;
-	}
-
-	public void setMouseY(int mouseY) {
-		this.mouseY = mouseY;
-	}
-
-	public int getBoost() {
-		return boost;
-	}
-
-	public void setBoost(int boost) {
-		this.boost = boost;
-	}
-
-	public int moveWithConstraints(int x, int min, int max) {
-		if(x>max)
-			return max;
-		if(x<min)
-			return min;
+	public int getX() {
 		return x;
 	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	
+	
 }

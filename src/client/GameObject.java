@@ -1,6 +1,7 @@
-package agario;
+package client;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 
 public abstract class GameObject {
 
@@ -58,7 +59,7 @@ public abstract class GameObject {
 	}
 	
 	public double distance(GameObject o) {
-		return Math.sqrt((x-o.x)*(x-o.x) + (y-o.y)*(y-o.y));
+		return Point2D.distance(x, y, o.getX(), o.getY());
 	}
 	
 }
