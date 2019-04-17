@@ -69,14 +69,14 @@ public class Client extends Canvas implements Runnable {
         new Window(FWIDTH, FHEIGHT, "AgarIO", game);
     }
 
-    synchronized public void start(JFrame frame) {
+    synchronized void start(JFrame frame) {
         this.frame = frame;
         thread = new Thread(this);
         thread.start();
         running = true;
     }
 
-    synchronized public void stop() {
+    synchronized void stop() {
         try {
             running = false;
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
@@ -155,7 +155,7 @@ public class Client extends Canvas implements Runnable {
             g.fillOval(food.getX() - (int) Food.RADIUS, food.getY() - (int) Food.RADIUS, (int) Food.RADIUS * 2, (int) Food.RADIUS * 2);
         }
 
-        List<Player> players = new ArrayList<Player>(game.getPlayers().values());
+        List<Player> players = new ArrayList<>(game.getPlayers().values());
         players.sort(Comparator.comparingDouble(Player::getRadius));
 
         for (Player player : players) {
@@ -167,11 +167,11 @@ public class Client extends Canvas implements Runnable {
         bs.show();
     }
 
-    public void setGame(Game game) {
+    void setGame(Game game) {
         this.game = game;
     }
 
-    public PlayerHandler getPlayerHandler() {
+    PlayerHandler getPlayerHandler() {
         return playerHandler;
     }
 

@@ -1,6 +1,7 @@
 package agario;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -47,5 +48,25 @@ public class Player implements Serializable {
 
     public Color getColor() {
         return color;
+    }
+
+    public void tryEat(Food food) {
+        if (Point2D.distance(getX(), getY(), food.getX(), food.getY()) < getRadius() - Food.RADIUS) {
+            setRadius(Math.hypot(getRadius(), Food.RADIUS));
+            Random random = new Random();
+            food.setXY(random.nextInt(Game.WIDTH - (int) Food.RADIUS * 2) + (int) Food.RADIUS, random.nextInt(Game.HEIGHT - (int) Food.RADIUS * 2) + (int) Food.RADIUS);
+        }
+    }
+
+    public boolean ifAtePrey(Player prey) {
+        if (Point2D.distance(getX(), getY(), prey.getX(), prey.getY()) < (getRadius() - prey.getRadius())) {
+            setRadius(Math.hypot(getRadius(), prey.getRadius()));
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isNotPredator(Player predator) {
+        return predator.getPlayerID() != getPlayerID();
     }
 }
