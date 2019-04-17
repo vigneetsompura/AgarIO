@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.Color;
+
 import agario.Game;
 import agario.Player;
 
@@ -85,4 +87,9 @@ class PlayerHandler {
     String getLocationUpdateMessage() {
         return "locationUpdate:" + getPlayerID() + "," + getX() + "," + getY();
     }
+
+	Color getColor() {
+		// TODO Auto-generated method stub
+		return player.getColor();
+	}
 }
