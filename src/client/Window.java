@@ -6,11 +6,11 @@ import java.awt.*;
 /**
  * @author Vigneet Sompura
  */
-public class Window extends Canvas {
+class Window extends Canvas {
 
     private static final long serialVersionUID = 505941576144136988L;
 
-    public Window(int width, int height, String title, Client client) {
+    Window(int width, int height, String title, Client client) {
         JFrame frame = new JFrame(title);
         frame.setPreferredSize(new Dimension(width, height));
         frame.setMinimumSize(new Dimension(width, height));
