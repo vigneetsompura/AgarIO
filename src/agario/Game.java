@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Game implements Serializable{
 
+	ReentrantLock lock = new ReentrantLock();
 	private static final long serialVersionUID = -5776416645573148979L;
 	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
 	private HashMap<Integer, Player> players;
@@ -49,6 +51,14 @@ public class Game implements Serializable{
 	
 	public void addFood() {
 		foodList.add(new Food(random.nextInt(WIDTH), random.nextInt(HEIGHT)));
+	}
+	
+	public void lock() {
+		this.lock.lock();
+	}
+	
+	public void unlock() {
+		this.lock.unlock();
 	}
 
 }

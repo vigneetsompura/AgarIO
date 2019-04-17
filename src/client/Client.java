@@ -99,10 +99,11 @@ public class Client extends Canvas implements Runnable{
 	
 	synchronized public void stop() {
 		try {
+			running = false;
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			renderer.stop();
 			thread.join();
-			running = false;
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

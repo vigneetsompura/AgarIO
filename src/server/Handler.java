@@ -46,16 +46,22 @@ public class Handler{
 	}
 	
 	public void tick() {
-		for(Player predator: getPlayers().values()) {
-			for(Food food: getFoodList()) {
-				tryEat(predator, food);
-			}
-			for(Player prey: getPlayers().values()) {
-				if(predator.getPlayerID() != prey.getPlayerID()) {
-					tryEat(predator, prey);
+		game.lock();
+		ArrayList<Player> players = new ArrayList<Player>(game.getPlayers().values());
+		for(Player predator: players) {
+			if(game.getPlayer(predator.getPlayerID())!=null) {
+				for(Food food: getFoodList()) {
+					tryEat(predator, food);
+				}
+				ArrayList<Player> preys = new ArrayList<Player>(game.getPlayers().values());
+				for(Player prey: preys) {
+					if(predator.getPlayerID() != prey.getPlayerID()) {
+						tryEat(predator, prey);
+					}
 				}
 			}
 		}
+		game.unlock();
 	}
 	
 	public void tryEat(Player player, Food food) {
@@ -67,7 +73,7 @@ public class Handler{
 	}
 	
 	public void tryEat(Player predator, Player prey) {
-		if(Point2D.distance(predator.getX(), predator.getY(), prey.getX(), prey.getY()) < predator.getRadius()-prey.getRadius()) {
+		if(Point2D.distance(predator.getX(), predator.getY(), prey.getX(), prey.getY()) < (predator.getRadius()-prey.getRadius())) {
 			predator.setRadius(Math.hypot(predator.getRadius(), prey.getRadius()));
 			game.removePlayer(prey.getPlayerID());
 		}

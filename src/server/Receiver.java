@@ -31,8 +31,8 @@ public class Receiver implements Runnable {
 	
 	synchronized public void stop() {
 		try {
-			thread.join();
 			running = false;
+			thread.join();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -61,7 +61,7 @@ public class Receiver implements Runnable {
 					Random random = new Random();
 					Player newPlayer = new Player(id, random.nextInt(Game.WIDTH), random.nextInt(Game.HEIGHT));
 					handler.addPlayer(newPlayer);
-
+					System.out.println("New player joined: "+id);
 					//send handler to player
 					Sender sender = new Sender(socket, address, port, handler);
 					Thread thread = new Thread(sender);

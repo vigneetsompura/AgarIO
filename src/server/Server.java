@@ -40,9 +40,10 @@ public class Server implements Runnable{
 	
 	synchronized public void stop() {
 		try {
+			running = false;
 			receiver.stop();
 			thread.join();
-			running = false;
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -62,7 +63,9 @@ public class Server implements Runnable{
 		long timer = System.currentTimeMillis();
 		
 		while(running) {
+			
 			long now = System.nanoTime();
+			System.out.println(now);
 			delta += (now-lastTime)/ns;
 			lastTime = now;
 			while(delta >= 1) {

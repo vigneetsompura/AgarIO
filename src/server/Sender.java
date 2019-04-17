@@ -30,7 +30,7 @@ public class Sender implements Runnable {
 		ObjectOutput output = new ObjectOutputStream(byteStream);
 		
 		for(Player p: handler.getPlayers().values()) {
-			System.out.println(p.getPlayerID()+","+p.getX()+","+p.getY());
+			//System.out.println(p.getPlayerID()+","+p.getX()+","+p.getY());
 		}
 		output.writeObject(handler.getGame());
 		output.close();
