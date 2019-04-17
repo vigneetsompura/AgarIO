@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import agario.Food;
 import agario.Game;
@@ -59,21 +59,15 @@ public class Renderer implements Runnable {
 			g.drawRect(0, 0, Game.WIDTH, Game.HEIGHT);
 			
 			Game game = client.getGame();
-			ArrayList<Food> foodList = game.getFoodList();
+			List<Food> foodList = game.getFoodList();
 			for(Food food: foodList) {
 				g.setColor(Color.YELLOW);
 				g.fillOval(food.getX(), food.getY(), (int)food.RADIUS * 2, (int)food.RADIUS * 2);
 			}
 			
 			ArrayList<Player> players = new ArrayList<Player> (game.getPlayers().values());
-			Collections.sort(players, new Comparator<Player>(){
-			     public int compare(Player o1, Player o2){
-			         if(o1.getRadius() == o2.getRadius())
-			             return 0;
-			         return o1.getRadius() < o2.getRadius() ? -1 : 1;
-			     }
-			});
-			
+			players.sort(Comparator.comparingDouble(Player::getRadius));
+
 			for(Player player: players) {
 				if(player.getPlayerID() == client.getPlayerHandler().getPlayerID()) {
 					Player p = client.getPlayerHandler().getPlayer();
