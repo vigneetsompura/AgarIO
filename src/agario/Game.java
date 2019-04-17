@@ -50,7 +50,7 @@ public class Game implements Serializable{
 	}
 	
 	public void addFood() {
-		foodList.add(new Food(random.nextInt(WIDTH), random.nextInt(HEIGHT)));
+		foodList.add(new Food(random.nextInt(WIDTH-(int) Food.RADIUS*2)+(int) Food.RADIUS, random.nextInt(HEIGHT-(int) Food.RADIUS*2)+(int) Food.RADIUS));
 	}
 	
 	public void lock() {

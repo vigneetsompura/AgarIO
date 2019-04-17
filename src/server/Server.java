@@ -65,7 +65,7 @@ public class Server implements Runnable{
 		while(running) {
 			
 			long now = System.nanoTime();
-			System.out.println(now);
+			//System.out.println(now);
 			delta += (now-lastTime)/ns;
 			lastTime = now;
 			while(delta >= 1) {

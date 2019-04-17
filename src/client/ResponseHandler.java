@@ -40,7 +40,7 @@ public class ResponseHandler implements Runnable {
         //System.out.println(game.getFoodList().size());
         //System.out.println(game.getPlayers().size());
         Player p = game.getPlayer(client.getPlayerHandler().getPlayerID());
-        System.out.println(p.getX()+","+p.getY()+","+p.getRadius());
+        //System.out.println(p.getX()+","+p.getY()+","+p.getRadius());
         if(game.getPlayer(client.getPlayerHandler().getPlayerID())!=null) {
 	        client.setGame(game);        
 			client.getPlayerHandler().setRadius(game.getPlayer(client.getPlayerHandler().getPlayerID()).getRadius());
