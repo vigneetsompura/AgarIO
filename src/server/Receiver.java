@@ -54,20 +54,6 @@ public class Receiver implements Runnable {
         socket.close();
     }
 
-    private void executeCommand(int port, String command, String parameters, InetAddress address) {
-        switch (command) {
-            case "startGame":
-                startGame(address, port, parameters);
-                break;
-            case "locationUpdate":
-                locationUpdate(address, port, parameters);
-                break;
-            case "endGame":
-                endGame(address, port, parameters);
-                break;
-        }
-    }
-
     private DatagramPacket readPacket() {
         DatagramPacket packet = new DatagramPacket(messageBytes, messageBytes.length);
         try {
@@ -78,28 +64,40 @@ public class Receiver implements Runnable {
         return packet;
     }
 
-    private void startGame(InetAddress address, int port, String parameters) {
+    private void executeCommand(int port, String command, String parameters, InetAddress address) {
+        switch (command) {
+            case "startGame":
+                startGame(parameters);
+                break;
+            case "locationUpdate":
+                locationUpdate(parameters);
+                break;
+            case "endGame":
+                endGame(parameters);
+                break;
+        }
+        startSenderThread(address, port);
+    }
+
+    private void startGame(String parameters) {
         int id = Integer.parseInt(parameters.trim());
         Random random = new Random();
         Player newPlayer = new Player(id, random.nextInt(Game.WIDTH - 64) + 32, random.nextInt(Game.HEIGHT - 64) + 32);
         handler.addPlayer(newPlayer);
         System.out.println("New player joined: " + id);
-        startSenderThread(address, port);
     }
 
-    private void locationUpdate(InetAddress address, int port, String parameters) {
+    private void locationUpdate(String parameters) {
         String[] p = parameters.split(",");
         Player player = handler.getPlayer(Integer.parseInt(p[0].trim()));
         if (player != null) {
             player.setXY(Integer.parseInt(p[1].trim()), Integer.parseInt(p[2].trim()));
-            startSenderThread(address, port);
         }
     }
 
-    private void endGame(InetAddress address, int port, String parameters) {
+    private void endGame(String parameters) {
         int playerID = Integer.parseInt(parameters);
         handler.removePlayer(playerID);
-        startSenderThread(address, port);
     }
 
     private void startSenderThread(InetAddress address, int port) {
