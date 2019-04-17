@@ -6,6 +6,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Random;
+
+import agario.Game;
 import agario.Player;
 
 public class Receiver implements Runnable {
@@ -57,7 +59,7 @@ public class Receiver implements Runnable {
 				if (command.equals("startGame")) {
 					int id = Integer.parseInt(parameters.trim());
 					Random random = new Random();
-					Player newPlayer = new Player(id, random.nextInt(Server.WIDTH), random.nextInt(Server.HEIGHT));
+					Player newPlayer = new Player(id, random.nextInt(Game.WIDTH), random.nextInt(Game.HEIGHT));
 					handler.addPlayer(newPlayer);
 
 					//send handler to player

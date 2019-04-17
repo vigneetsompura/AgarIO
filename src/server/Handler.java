@@ -37,8 +37,8 @@ public class Handler{
 		game.removePlayer(playerID);
 	}
 
-	public void addFood(Food food) {
-		game.addFood(food);
+	public void addFood() {
+		game.addFood();
 	}
 	
 	public Game getGame() {
@@ -62,7 +62,7 @@ public class Handler{
 		if(Point2D.distance(player.getX(), player.getY(), food.getX(), food.getY())< player.getRadius() - Food.RADIUS) {
 			player.setRadius(Math.hypot(player.getRadius(), Food.RADIUS));
 			Random random = new Random();
-			food.setXY(random.nextInt(Server.WIDTH), random.nextInt(Server.HEIGHT));
+			food.setXY(random.nextInt(Game.WIDTH), random.nextInt(Game.HEIGHT));
 		}
 	}
 	

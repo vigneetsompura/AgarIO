@@ -4,12 +4,10 @@ import java.net.SocketException;
 import java.util.Random;
 
 import agario.Food;
+import agario.Game;
 
 public class Server implements Runnable{
 	
-	public static final int WIDTH = 4800, HEIGHT = WIDTH/16*9;
-	public static final int FWIDTH = 1600, FHEIGHT = FWIDTH/16*9;
-
 	private Handler handler;
 	private Thread thread;
 	private boolean running;
@@ -21,7 +19,7 @@ public class Server implements Runnable{
 		handler = new Handler();
 		Random random = new Random();
 		for(int i=0; i<100; i++) {
-			handler.addFood(new Food(random.nextInt(WIDTH), random.nextInt(HEIGHT)));
+			handler.addFood();
 		}
 		receiver = new Receiver(handler);
 	
