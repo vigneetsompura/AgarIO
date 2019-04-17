@@ -45,10 +45,6 @@ public class PlayerHandler {
         return x;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
     private void setVelX(int velX) {
         this.velX = velX;
     }

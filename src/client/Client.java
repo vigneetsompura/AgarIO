@@ -43,26 +43,24 @@ public class Client extends Canvas implements Runnable {
         clientSocket = new DatagramSocket();
         Random random = new Random();
         int playerID = random.nextInt(Integer.MAX_VALUE);
-        String startMessage = "startGame:" + playerID;
-        outData = startMessage.getBytes();
-
-        DatagramPacket out = new DatagramPacket(outData, outData.length, this.serverIP, 4445);
-        clientSocket.send(out);
+        sendStartGameMessage(playerID);
 
         byte[] inData = new byte[65500];
-        DatagramPacket in = new DatagramPacket(inData, inData.length);
-        clientSocket.receive(in);
-
-        inData = in.getData();
-
-        ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(inData));
-        game = (Game) objStream.readObject();
+        game = readObjectFromSocket(inData, clientSocket);
 
         playerHandler = new PlayerHandler(game.getPlayer(playerID));
 
         this.addMouseMotionListener(new MouseInput(playerHandler));
         this.addMouseListener(new MouseInput(playerHandler));
         this.addKeyListener(new KeyInput(playerHandler));
+    }
+
+    private void sendStartGameMessage(int playerID) throws IOException {
+        String startMessage = "startGame:" + playerID;
+        outData = startMessage.getBytes();
+
+        DatagramPacket out = new DatagramPacket(outData, outData.length, this.serverIP, 4445);
+        clientSocket.send(out);
     }
 
     public static void main(String[] args) throws ClassNotFoundException, IOException {
@@ -175,5 +173,14 @@ public class Client extends Canvas implements Runnable {
 
     public PlayerHandler getPlayerHandler() {
         return playerHandler;
+    }
+
+    Game readObjectFromSocket(byte[] inData, DatagramSocket clientSocket) throws IOException, ClassNotFoundException {
+        DatagramPacket in = new DatagramPacket(inData, inData.length);
+        clientSocket.receive(in);
+        inData = in.getData();
+
+        ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(inData));
+        return (Game) objStream.readObject();
     }
 }

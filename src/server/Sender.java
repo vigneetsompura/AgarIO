@@ -1,6 +1,7 @@
 package server;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
@@ -23,18 +24,30 @@ public class Sender implements Runnable {
 
     @Override
     public void run() {
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        writeObject(byteStream);
+        DatagramPacket replyPacket = generateReplyPacket(byteStream);
+        sendReply(replyPacket);
+    }
+
+    private DatagramPacket generateReplyPacket(ByteArrayOutputStream byteStream) {
+        byte[] message = byteStream.toByteArray();
+        return new DatagramPacket(message, message.length, address, port);
+    }
+
+    private void sendReply(DatagramPacket replyPacket) {
         try {
-            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            ObjectOutput output = new ObjectOutputStream(byteStream);
-
-            output.writeObject(handler.getGame());
-            output.close();
-            byte[] message = byteStream.toByteArray();
-
-            DatagramPacket replyPacket = new DatagramPacket(message, message.length, address, port);
             socket.send(replyPacket);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void writeObject(ByteArrayOutputStream byteStream) {
+        try (ObjectOutput output = new ObjectOutputStream(byteStream)) {
+            output.writeObject(handler.getGame());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

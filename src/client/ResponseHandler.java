@@ -1,15 +1,8 @@
 package client;
 
 import agario.Game;
-import agario.Player;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 
 public class ResponseHandler implements Runnable {
 
@@ -26,7 +19,7 @@ public class ResponseHandler implements Runnable {
     @Override
     public void run() {
         try {
-            Game game = readObjectFromSocket();
+            Game game = client.readObjectFromSocket(this.inData,this.clientSocket);
             int playerID = client.getPlayerHandler().getPlayerID();
             if (game.getPlayer(playerID) != null) {
                 client.setGame(game);
@@ -37,15 +30,6 @@ public class ResponseHandler implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private Game readObjectFromSocket() throws IOException, ClassNotFoundException {
-        DatagramPacket in = new DatagramPacket(inData, inData.length);
-        clientSocket.receive(in);
-        inData = in.getData();
-
-        ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(inData));
-        return (Game) objStream.readObject();
     }
 
     public void start() {

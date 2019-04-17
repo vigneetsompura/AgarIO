@@ -9,7 +9,7 @@ public class Server implements Runnable {
     private boolean running;
     private Receiver receiver;
 
-    public Server() throws SocketException {
+    private Server() throws SocketException {
         handler = new Handler();
         for (int i = 0; i < 100; i++) {
             handler.addFood();
@@ -18,19 +18,18 @@ public class Server implements Runnable {
     }
 
     public static void main(String[] args) throws SocketException {
-        // TODO Auto-generated method stub
         Server server = new Server();
         server.start();
     }
 
-    synchronized public void start() {
+    private synchronized void start() {
         thread = new Thread(this);
         running = true;
         thread.start();
         receiver.start();
     }
 
-    synchronized public void stop() {
+    private synchronized void stop() {
         try {
             running = false;
             receiver.stop();
