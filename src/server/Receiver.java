@@ -45,11 +45,10 @@ public class Receiver implements Runnable {
             DatagramPacket packet = readPacket();
 
             int port = packet.getPort();
-            String received = new String(packet.getData(), 0, packet.getLength());
-            String command = received.split(":")[0];
-            String parameters = received.split(":")[1];
             InetAddress address = packet.getAddress();
-            executeCommand(port, command, parameters, address);
+            String received = new String(packet.getData(), 0, packet.getLength());
+            executeCommand(received);
+            startSenderThread(address, port);
         }
         socket.close();
     }
@@ -64,7 +63,9 @@ public class Receiver implements Runnable {
         return packet;
     }
 
-    private void executeCommand(int port, String command, String parameters, InetAddress address) {
+    private void executeCommand(String received) {
+        String command = received.split(":")[0];
+        String parameters = received.split(":")[1];
         switch (command) {
             case "startGame":
                 startGame(parameters);
@@ -76,7 +77,6 @@ public class Receiver implements Runnable {
                 endGame(parameters);
                 break;
         }
-        startSenderThread(address, port);
     }
 
     private void startGame(String parameters) {
