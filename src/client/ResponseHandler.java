@@ -8,7 +8,6 @@ import java.net.DatagramSocket;
 public class ResponseHandler implements Runnable {
 
     private Client client;
-    // Server communication variables.
     private DatagramSocket clientSocket;
     private byte[] inData = new byte[65500];
 
