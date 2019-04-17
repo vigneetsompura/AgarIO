@@ -118,7 +118,7 @@ public class Client extends Canvas implements Runnable {
 
     private void tick() throws IOException {
         playerHandler.tick();
-        String updateMessage = "locationUpdate:" + playerHandler.getPlayerID() + "," + playerHandler.getX() + "," + playerHandler.getY();
+        String updateMessage = playerHandler.getLocationUpdateMessage();
         outData = updateMessage.getBytes();
 
         DatagramPacket out = new DatagramPacket(outData, outData.length, this.serverIP, 4445);
@@ -171,10 +171,6 @@ public class Client extends Canvas implements Runnable {
         this.game = game;
     }
 
-    PlayerHandler getPlayerHandler() {
-        return playerHandler;
-    }
-
     Game readObjectFromSocket(byte[] inData, DatagramSocket clientSocket) throws IOException, ClassNotFoundException {
         DatagramPacket in = new DatagramPacket(inData, inData.length);
         clientSocket.receive(in);
@@ -182,5 +178,14 @@ public class Client extends Canvas implements Runnable {
 
         ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(inData));
         return (Game) objStream.readObject();
+    }
+
+    Player getPlayer(Game game) {
+        int playerID = playerHandler.getPlayerID();
+        return game.getPlayer(playerID);
+    }
+
+    void setRadius(Player player) {
+        playerHandler.setRadius(player.getRadius());
     }
 }

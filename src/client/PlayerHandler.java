@@ -3,12 +3,12 @@ package client;
 import agario.Game;
 import agario.Player;
 
-public class PlayerHandler {
+class PlayerHandler {
 
     private Player player;
     private int velX, velY, mouseX, mouseY, speed, boost;
 
-    public PlayerHandler(Player player) {
+    PlayerHandler(Player player) {
         this.player = player;
         mouseX = 0;
         mouseY = 0;
@@ -16,7 +16,7 @@ public class PlayerHandler {
         this.boost = 1;
     }
 
-    public void tick() {
+    void tick() {
         updateVelocity();
         int x = moveWithConstraints(getX() + velX, (int) getRadius(), Game.WIDTH - (int) getRadius());
         int y = moveWithConstraints(getY() + velY, (int) getRadius(), Game.HEIGHT - (int) getRadius());
@@ -53,23 +53,23 @@ public class PlayerHandler {
         this.velY = velY;
     }
 
-    public void setMouseX(int mouseX) {
+    void setMouseX(int mouseX) {
         this.mouseX = mouseX;
     }
 
-    public void setMouseY(int mouseY) {
+    void setMouseY(int mouseY) {
         this.mouseY = mouseY;
     }
 
-    public void setBoost(int boost) {
+    void setBoost(int boost) {
         this.boost = boost;
     }
 
-    public int getX() {
+    int getX() {
         return player.getX();
     }
 
-    public int getY() {
+    int getY() {
         return player.getY();
     }
 
@@ -77,15 +77,19 @@ public class PlayerHandler {
         player.setXY(x, y);
     }
 
-    public double getRadius() {
+    double getRadius() {
         return player.getRadius();
     }
 
-    public int getPlayerID() {
+    int getPlayerID() {
         return player.getPlayerID();
     }
 
-    public void setRadius(double radius) {
+    void setRadius(double radius) {
         player.setRadius(radius);
+    }
+
+    String getLocationUpdateMessage() {
+        return "locationUpdate:" + getPlayerID() + "," + getX() + "," + getY();
     }
 }

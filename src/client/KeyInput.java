@@ -8,7 +8,7 @@ public class KeyInput extends KeyAdapter {
     private PlayerHandler playerHandler;
     private boolean flag = true;
 
-    public KeyInput(PlayerHandler playerHandler) {
+    KeyInput(PlayerHandler playerHandler) {
         this.playerHandler = playerHandler;
     }
 

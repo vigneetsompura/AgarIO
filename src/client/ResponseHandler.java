@@ -1,6 +1,7 @@
 package client;
 
 import agario.Game;
+import agario.Player;
 
 import java.net.DatagramSocket;
 
@@ -11,7 +12,7 @@ public class ResponseHandler implements Runnable {
     private DatagramSocket clientSocket;
     private byte[] inData = new byte[65500];
 
-    public ResponseHandler(DatagramSocket clientSocket, Client client) {
+    ResponseHandler(DatagramSocket clientSocket, Client client) {
         this.client = client;
         this.clientSocket = clientSocket;
     }
@@ -20,10 +21,10 @@ public class ResponseHandler implements Runnable {
     public void run() {
         try {
             Game game = client.readObjectFromSocket(this.inData,this.clientSocket);
-            int playerID = client.getPlayerHandler().getPlayerID();
-            if (game.getPlayer(playerID) != null) {
+            Player player = client.getPlayer(game);
+            if (player != null) {
                 client.setGame(game);
-                client.getPlayerHandler().setRadius(game.getPlayer(playerID).getRadius());
+                client.setRadius(player);
             } else {
                 client.stop();
             }
@@ -32,7 +33,7 @@ public class ResponseHandler implements Runnable {
         }
     }
 
-    public void start() {
+    void start() {
         Thread thread = new Thread(this);
         thread.start();
     }

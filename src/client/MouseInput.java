@@ -7,7 +7,7 @@ public class MouseInput extends MouseAdapter {
 
     private PlayerHandler playerHandler;
 
-    public MouseInput(PlayerHandler playerHandler) {
+    MouseInput(PlayerHandler playerHandler) {
         this.playerHandler = playerHandler;
     }
 
