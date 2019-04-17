@@ -69,4 +69,10 @@ public class Player implements Serializable {
     public boolean isNotPredator(Player predator) {
         return predator.getPlayerID() != getPlayerID();
     }
+
+	public void fillColor(Graphics2D g) {
+		g.setColor(getColor());
+		int radius = (int) getRadius();
+		g.fillOval(getX() - radius, getY() - radius, radius * 2, radius * 2);
+	}
 }
