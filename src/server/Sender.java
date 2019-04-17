@@ -26,14 +26,12 @@ public class Sender implements Runnable {
 		try {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		ObjectOutput output = new ObjectOutputStream(byteStream);
-		output.writeObject(handler);
+		output.writeObject(handler.getGame());
 		output.close();
 		byte[] message = byteStream.toByteArray();
 		
 		DatagramPacket replyPacket = new DatagramPacket(message, message.length, address, port);
 		socket.send(replyPacket);
-		
-		
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

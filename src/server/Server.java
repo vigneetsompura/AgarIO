@@ -1,10 +1,9 @@
 package server;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.Random;
+
+import agario.Food;
 
 public class Server implements Runnable{
 	
@@ -14,16 +13,18 @@ public class Server implements Runnable{
 	private Handler handler;
 	private Thread thread;
 	private boolean running;
+	private Receiver receiver;
+
 	
 	
 	public Server() throws SocketException {
 		handler = new Handler();
+		Random random = new Random();
 		for(int i=0; i<100; i++) {
-			handler.addObject(new Food());
+			handler.addFood(new Food(random.nextInt(WIDTH), random.nextInt(HEIGHT)));
 		}
-		Receiver receiver = new Receiver(handler);
-		Thread t = new Thread(receiver);
-		t.start();
+		receiver = new Receiver(handler);
+	
 	}
 
 	public static void main(String[] args) throws SocketException {
@@ -32,14 +33,16 @@ public class Server implements Runnable{
 		server.start();
 	}
 	
-	synchronized public void start() {
+	synchronized public void start() throws SocketException {
 		thread = new Thread(this);
-		thread.start();
 		running = true;
+		thread.start();
+		receiver.start();
 	}
 	
 	synchronized public void stop() {
 		try {
+			receiver.stop();
 			thread.join();
 			running = false;
 		}catch(Exception e) {
@@ -53,14 +56,12 @@ public class Server implements Runnable{
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
-		int frames = 0;
 		
 		while(running) {
 			long now = System.nanoTime();
@@ -72,7 +73,6 @@ public class Server implements Runnable{
 			}
 			if(System.currentTimeMillis()-timer > 1000) {
 				timer += 1000;
-				frames = 0;
 			}
 		}
 		stop();
