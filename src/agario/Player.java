@@ -41,6 +41,11 @@ public class Player{
 		this.y = y;
 	}
 
+	public void setXY(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	public double getRadius() {
 		return radius;
 	}
