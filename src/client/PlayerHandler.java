@@ -53,36 +53,16 @@ public class PlayerHandler{
 		return player;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
-	public int getVelX() {
-		return velX;
-	}
-
 	public void setVelX(int velX) {
 		this.velX = velX;
-	}
-
-	public int getVelY() {
-		return velY;
 	}
 
 	public void setVelY(int velY) {
 		this.velY = velY;
 	}
 
-	public int getMouseX() {
-		return mouseX;
-	}
-
 	public void setMouseX(int mouseX) {
 		this.mouseX = mouseX;
-	}
-
-	public int getMouseY() {
-		return mouseY;
 	}
 
 	public void setMouseY(int mouseY) {
@@ -123,10 +103,6 @@ public class PlayerHandler{
 
 	public int getPlayerID() {
 		return player.getPlayerID();
-	}
-
-	public Color getColor() {
-		return player.getColor();
 	}
 
 	public void setRadius(double radius) {

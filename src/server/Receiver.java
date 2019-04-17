@@ -12,11 +12,11 @@ import agario.Player;
 
 public class Receiver implements Runnable {
 
-	Handler handler;
+	private Handler handler;
 	private DatagramSocket socket;
 	private boolean running;
 	private byte[] messageBytes = new byte[65500];
-	Thread thread; 
+	private Thread thread;
 	
 	public Receiver(Handler handler) throws SocketException {
 		socket = new DatagramSocket(4445);
@@ -55,35 +55,41 @@ public class Receiver implements Runnable {
 				//System.out.println( received);
 				String command = received.split(":")[0];
 				String parameters = received.split(":")[1];
-				
-				if (command.equals("startGame")) {
-					int id = Integer.parseInt(parameters.trim());
-					Random random = new Random();
-					Player newPlayer = new Player(id, random.nextInt(Game.WIDTH - 64)+32, random.nextInt(Game.HEIGHT-64)+32);
-					handler.addPlayer(newPlayer);
-					System.out.println("New player joined: "+id);
-					//send handler to player
-					Sender sender = new Sender(socket, address, port, handler);
-					Thread thread = new Thread(sender);
-					thread.start();
-					
-				}else if (command.equals("locationUpdate")){
-					String[] p = parameters.split(",");
-					Player player = handler.getPlayer(Integer.parseInt(p[0].trim()));
-					if(player!=null) {
-					player.setXY(Integer.parseInt(p[1].trim()), Integer.parseInt(p[2].trim()));
-					//send handler to player
-					Sender sender = new Sender(socket, address, port, handler);
-					Thread thread = new Thread(sender);
-					thread.start();
+
+				switch (command) {
+					case "startGame": {
+						int id = Integer.parseInt(parameters.trim());
+						Random random = new Random();
+						Player newPlayer = new Player(id, random.nextInt(Game.WIDTH - 64) + 32, random.nextInt(Game.HEIGHT - 64) + 32);
+						handler.addPlayer(newPlayer);
+						System.out.println("New player joined: " + id);
+						//send handler to player
+						Sender sender = new Sender(socket, address, port, handler);
+						Thread thread = new Thread(sender);
+						thread.start();
+
+						break;
 					}
-					
-				}else if(command.equals("endGame")) {
-					int playerID = Integer.parseInt(parameters);
-					handler.removePlayer(playerID);
-					Sender sender = new Sender(socket, address, port, handler);
-					Thread thread = new Thread(sender);
-					thread.start();
+					case "locationUpdate":
+						String[] p = parameters.split(",");
+						Player player = handler.getPlayer(Integer.parseInt(p[0].trim()));
+						if (player != null) {
+							player.setXY(Integer.parseInt(p[1].trim()), Integer.parseInt(p[2].trim()));
+							//send handler to player
+							Sender sender = new Sender(socket, address, port, handler);
+							Thread thread = new Thread(sender);
+							thread.start();
+						}
+
+						break;
+					case "endGame": {
+						int playerID = Integer.parseInt(parameters);
+						handler.removePlayer(playerID);
+						Sender sender = new Sender(socket, address, port, handler);
+						Thread thread = new Thread(sender);
+						thread.start();
+						break;
+					}
 				}
 				
 			}

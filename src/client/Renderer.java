@@ -62,7 +62,7 @@ public class Renderer implements Runnable {
 			List<Food> foodList = game.getFoodList();
 			for(Food food: foodList) {
 				g.setColor(Color.YELLOW);
-				g.fillOval(food.getX(), food.getY(), (int)food.RADIUS * 2, (int)food.RADIUS * 2);
+				g.fillOval(food.getX(), food.getY(), (int) Food.RADIUS * 2, (int) Food.RADIUS * 2);
 			}
 			
 			ArrayList<Player> players = new ArrayList<Player> (game.getPlayers().values());

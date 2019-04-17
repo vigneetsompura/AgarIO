@@ -13,13 +13,11 @@ public class MouseInput extends MouseAdapter{
 	}
 	
 	public void mouseMoved(MouseEvent e) {
-		//System.out.println(playerHandler.getX()+","+playerHandler.getY());
 		playerHandler.setMouseX(e.getX()-Client.FWIDTH/2);
 		playerHandler.setMouseY(e.getY()-Client.FHEIGHT/2);
 	}
 	
 	public void mouseExited(MouseEvent e) {
-		//System.out.println("Mouse Exit");
 		playerHandler.setMouseX(0);
 		playerHandler.setMouseY(0);
 	}

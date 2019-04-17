@@ -14,8 +14,8 @@ import agario.Player;
 
 public class ResponseHandler implements Runnable {
 	
-	Client client;
-	Thread thread;
+	private Client client;
+	private Thread thread;
 	// Server communication variables.
 	private DatagramSocket clientSocket;
     private byte[] inData = new byte[65500];

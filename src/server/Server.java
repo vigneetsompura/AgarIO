@@ -13,16 +13,12 @@ public class Server implements Runnable{
 	private boolean running;
 	private Receiver receiver;
 
-	
-	
 	public Server() throws SocketException {
 		handler = new Handler();
-		Random random = new Random();
 		for(int i=0; i<100; i++) {
 			handler.addFood();
 		}
 		receiver = new Receiver(handler);
-	
 	}
 
 	public static void main(String[] args) throws SocketException {
@@ -31,7 +27,7 @@ public class Server implements Runnable{
 		server.start();
 	}
 	
-	synchronized public void start() throws SocketException {
+	synchronized public void start() {
 		thread = new Thread(this);
 		running = true;
 		thread.start();
@@ -63,9 +59,7 @@ public class Server implements Runnable{
 		long timer = System.currentTimeMillis();
 		
 		while(running) {
-			
 			long now = System.nanoTime();
-			//System.out.println(now);
 			delta += (now-lastTime)/ns;
 			lastTime = now;
 			while(delta >= 1) {
@@ -78,5 +72,4 @@ public class Server implements Runnable{
 		}
 		stop();
 	}
-
 }

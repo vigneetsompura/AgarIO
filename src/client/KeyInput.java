@@ -5,8 +5,8 @@ import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
 
-	PlayerHandler playerHandler;
-	boolean flag = true;
+	private PlayerHandler playerHandler;
+	private boolean flag = true;
 	
 	public KeyInput(PlayerHandler playerHandler) {
 		this.playerHandler = playerHandler;

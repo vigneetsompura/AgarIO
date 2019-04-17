@@ -1,9 +1,7 @@
 package server;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 import agario.Food;
 import agario.Game;
@@ -17,11 +15,11 @@ public class Handler{
 		this.game = new Game();
 	}
 
-	public HashMap<Integer, Player> getPlayers() {
+	public Map<Integer, Player> getPlayers() {
 		return game.getPlayers();
 	}
 
-	public ArrayList<Food> getFoodList() {
+	public List<Food> getFoodList() {
 		return game.getFoodList();
 	}
 

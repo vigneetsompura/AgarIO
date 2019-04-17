@@ -11,14 +11,6 @@ public class Player implements Serializable{
 	private double radius;
 	private Color color;
 
-	public Player(int playerID, int x, int y, Color color) {
-		this.playerID = playerID;
-		this.x = x;
-		this.y = y;
-		this.color = color;
-		this.radius = 32;
-	}
-	
 	public Player(int playerID, int x, int y) {
 		Random random = new Random();
 		this.playerID = playerID;
@@ -32,16 +24,8 @@ public class Player implements Serializable{
 		return x;
 	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
-
 	public int getY() {
 		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 
 	public void setXY(int x, int y) {
@@ -65,6 +49,4 @@ public class Player implements Serializable{
 		return color;
 	}
 
-	
-	
 }

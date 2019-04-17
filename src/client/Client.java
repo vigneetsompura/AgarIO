@@ -26,7 +26,7 @@ import agario.Player;
 public class Client extends Canvas implements Runnable{
 
 	private static final long serialVersionUID = 7846764236102367675L;
-	public static final int FWIDTH = 1600, FHEIGHT = FWIDTH/16*9;
+	static final int FWIDTH = 1600, FHEIGHT = FWIDTH/16*9;
 	
 	public double scale = 1;
 	private Random random;
@@ -37,12 +37,10 @@ public class Client extends Canvas implements Runnable{
 	// Server communication variables.
 	private DatagramSocket clientSocket;
 	private InetAddress serverIP;
-	private byte[] outData = new byte[65500];
+	private byte[] outData;
     private byte[] inData = new byte[65500];
 	private PlayerHandler playerHandler;
 	private BufferStrategy bs;
-	private Graphics2D g = null;
-	private boolean flag = false;
 	private JFrame frame;
 	
 	public Client(String serverIP) throws IOException, ClassNotFoundException {
@@ -73,13 +71,7 @@ public class Client extends Canvas implements Runnable{
 		
 	}
 
-	/**
-	 * @param args
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
-	 */
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
-		// TODO Auto-generated method stub
 		String serverIp = args[0];
 		Client game = new Client(serverIp);
 		new Window(FWIDTH, FHEIGHT, "AgarIO", game);
@@ -90,8 +82,6 @@ public class Client extends Canvas implements Runnable{
 		thread = new Thread(this);
 		thread.start();
 		running = true;
-		
-		
 	}
 	
 	synchronized public void stop() {
@@ -114,8 +104,7 @@ public class Client extends Canvas implements Runnable{
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
-		int frames = 0;
-		
+
 		while(running) {
 			long now = System.nanoTime();
 			delta += (now-lastTime)/ns;
@@ -131,12 +120,8 @@ public class Client extends Canvas implements Runnable{
 			}
 			if(running)
 				render();
-			frames++;
 			if(System.currentTimeMillis()-timer > 1000) {
 				timer += 1000;
-				//System.out.println("FPS: "+frames);
-				//System.out.println("Score :" + (int) ((playerHandler.getRadius()-32)*2));
-				frames = 0;
 			}
 		}
 		stop();
@@ -155,16 +140,6 @@ public class Client extends Canvas implements Runnable{
         ResponseHandler responseHandler = new ResponseHandler(clientSocket, this);
         responseHandler.start();
         
-	}
-	
-	public void setupRender() {
-		bs = this.getBufferStrategy();
-		if (bs == null) {
-			this.createBufferStrategy(2);
-			return;
-		}
-		
-		g = (Graphics2D) bs.getDrawGraphics();
 	}
 
 	private void render() {

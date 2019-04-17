@@ -29,9 +29,6 @@ public class Sender implements Runnable {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		ObjectOutput output = new ObjectOutputStream(byteStream);
 		
-		for(Player p: handler.getPlayers().values()) {
-			//System.out.println(p.getPlayerID()+","+p.getX()+","+p.getY());
-		}
 		output.writeObject(handler.getGame());
 		output.close();
 		byte[] message = byteStream.toByteArray();
@@ -41,7 +38,5 @@ public class Sender implements Runnable {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
-
 }
