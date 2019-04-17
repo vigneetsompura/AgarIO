@@ -1,5 +1,7 @@
 package agario;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.io.Serializable;
 
 public class Food implements Serializable {
@@ -25,4 +27,10 @@ public class Food implements Serializable {
         this.x = x;
         this.y = y;
     }
+
+	public void fillColor(Graphics2D g) {
+		g.setColor(Color.YELLOW);
+		int radius = (int) Food.RADIUS;
+		g.fillOval(getX() - radius, getY() - radius, radius * 2, radius * 2);
+	}
 }

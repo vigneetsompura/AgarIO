@@ -1,7 +1,12 @@
 package client;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferStrategy;
+import java.util.Comparator;
+import java.util.List;
 
+import agario.Food;
 import agario.Game;
 import agario.Player;
 
@@ -88,8 +93,44 @@ class PlayerHandler {
         return "locationUpdate:" + getPlayerID() + "," + getX() + "," + getY();
     }
 
-	Color getColor() {
-		// TODO Auto-generated method stub
-		return player.getColor();
+	void render(Client client) {
+	    BufferStrategy bs = client.getBufferStrategy();
+	    if (bs == null) {
+	        client.createBufferStrategy(2);
+	        return;
+	    }
+	
+	    Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+	    g.setColor(Color.WHITE);
+	    g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+	
+	    g.translate(Client.FWIDTH / 2, Client.FHEIGHT / 2);
+	    if (getRadius() > 64)
+	        client.scale = 64 / getRadius();
+	    g.scale(client.scale, client.scale);
+	    g.translate(-getX(), -getY());
+	    g.setColor(Color.gray);
+	    g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+	    g.setColor(Color.RED);
+	    g.drawRect(0, 0, Client.WIDTH, Client.HEIGHT);
+	
+	    List<Food> foodList = client.game.getFoodList();
+	    for (Food food : foodList) {
+	        food.fillColor(g);
+	    }
+	
+	    List<Player> players = client.game.getPlayers();
+	    players.sort(Comparator.comparingDouble(Player::getRadius));
+	
+	    for (Player player : players) {
+	    	if (player.getPlayerID() == getPlayerID()) {
+	    		this.player.fillColor(g);
+	    	} else {
+	    		player.fillColor(g);
+	    	}
+	    }
+	
+	    g.dispose();
+	    bs.show();
 	}
 }

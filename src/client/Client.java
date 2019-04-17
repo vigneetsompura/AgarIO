@@ -1,21 +1,17 @@
 package client;
 
-import agario.Food;
 import agario.Game;
 import agario.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferStrategy;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -26,10 +22,10 @@ public class Client extends Canvas implements Runnable {
     private static final long serialVersionUID = 7846764236102367675L;
     static final int FWIDTH = 1600, FHEIGHT = FWIDTH / 16 * 9;
 
-    private double scale = 1;
+    double scale = 1;
     private Thread thread;
     private boolean running = false;
-    private Game game;
+    Game game;
     // Server communication variables.
     private DatagramSocket clientSocket;
     private InetAddress serverIP;
@@ -107,7 +103,7 @@ public class Client extends Canvas implements Runnable {
                 delta--;
             }
             if (running)
-                render();
+                playerHandler.render(this);
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
             }
@@ -127,55 +123,7 @@ public class Client extends Canvas implements Runnable {
         responseHandler.start();
     }
 
-    private void render() {
-        BufferStrategy bs = this.getBufferStrategy();
-        if (bs == null) {
-            this.createBufferStrategy(2);
-            return;
-        }
-
-        Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-
-        g.translate(FWIDTH / 2, FHEIGHT / 2);
-        if (playerHandler.getRadius() > 64)
-            scale = 64 / playerHandler.getRadius();
-        g.scale(scale, scale);
-        g.translate(-playerHandler.getX(), -playerHandler.getY());
-        g.setColor(Color.gray);
-        g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-        g.setColor(Color.RED);
-        g.drawRect(0, 0, WIDTH, HEIGHT);
-
-        List<Food> foodList = game.getFoodList();
-        for (Food food : foodList) {
-            g.setColor(Color.YELLOW);
-            int radius = (int) Food.RADIUS;
-            g.fillOval(food.getX() - radius, food.getY() - radius, radius * 2, radius * 2);
-        }
-
-        List<Player> players = game.getPlayers();
-        players.sort(Comparator.comparingDouble(Player::getRadius));
-
-        for (Player player : players) {
-        	if (player.getPlayerID() == playerHandler.getPlayerID()) {
-        		g.setColor(playerHandler.getColor());
-                int radius = (int) playerHandler.getRadius();
-                g.fillOval(playerHandler.getX() - radius, playerHandler.getY() - radius, radius * 2, radius * 2);
-        	} else {
-        		g.setColor(player.getColor());
-                int radius = (int) player.getRadius();
-                g.fillOval(player.getX() - radius, player.getY() - radius, radius * 2, radius * 2);
-        	}
-            
-        }
-
-        g.dispose();
-        bs.show();
-    }
-
-    void setGame(Game game) {
+      void setGame(Game game) {
         this.game = game;
     }
 
