@@ -159,9 +159,16 @@ public class Client extends Canvas implements Runnable {
         players.sort(Comparator.comparingDouble(Player::getRadius));
 
         for (Player player : players) {
-            g.setColor(player.getColor());
-            int radius = (int) player.getRadius();
-            g.fillOval(player.getX() - radius, player.getY() - radius, radius * 2, radius * 2);
+        	if (player.getPlayerID() == playerHandler.getPlayerID()) {
+        		g.setColor(playerHandler.getColor());
+                int radius = (int) playerHandler.getRadius();
+                g.fillOval(playerHandler.getX() - radius, playerHandler.getY() - radius, radius * 2, radius * 2);
+        	} else {
+        		g.setColor(player.getColor());
+                int radius = (int) player.getRadius();
+                g.fillOval(player.getX() - radius, player.getY() - radius, radius * 2, radius * 2);
+        	}
+            
         }
 
         g.dispose();
