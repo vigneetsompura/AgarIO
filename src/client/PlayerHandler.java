@@ -99,38 +99,49 @@ class PlayerHandler {
 	        client.createBufferStrategy(2);
 	        return;
 	    }
-	
-	    Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-	    g.setColor(Color.WHITE);
-	    g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-	
-	    g.translate(Client.FWIDTH / 2, Client.FHEIGHT / 2);
-	    if (getRadius() > 64)
-	        client.scale = 64 / getRadius();
-	    g.scale(client.scale, client.scale);
-	    g.translate(-getX(), -getY());
-	    g.setColor(Color.gray);
-	    g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-	    g.setColor(Color.RED);
-	    g.drawRect(0, 0, Client.WIDTH, Client.HEIGHT);
-	
-	    List<Food> foodList = client.game.getFoodList();
-	    for (Food food : foodList) {
-	        food.fillColor(g);
-	    }
-	
-	    List<Player> players = client.game.getPlayers();
-	    players.sort(Comparator.comparingDouble(Player::getRadius));
-	
-	    for (Player player : players) {
-	    	if (player.getPlayerID() == getPlayerID()) {
-	    		this.player.fillColor(g);
-	    	} else {
-	    		player.fillColor(g);
-	    	}
-	    }
-	
-	    g.dispose();
+
+        Graphics2D g = drawCanvas(client, bs);
+        drawFood(client, g);
+        drawPlayers(client, g);
+
+        g.dispose();
 	    bs.show();
 	}
+
+    private void drawPlayers(Client client, Graphics2D g) {
+        List<Player> players = client.game.getPlayers();
+        players.sort(Comparator.comparingDouble(Player::getRadius));
+
+        for (Player player : players) {
+            if (player.getPlayerID() == getPlayerID()) {
+                this.player.fillColor(g);
+            } else {
+                player.fillColor(g);
+            }
+        }
+    }
+
+    private void drawFood(Client client, Graphics2D g) {
+        List<Food> foodList = client.game.getFoodList();
+        for (Food food : foodList) {
+            food.fillColor(g);
+        }
+    }
+
+    private Graphics2D drawCanvas(Client client, BufferStrategy bs) {
+        Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+
+        g.translate(Client.FWIDTH / 2, Client.FHEIGHT / 2);
+        if (getRadius() > 64)
+            client.scale = 64 / getRadius();
+        g.scale(client.scale, client.scale);
+        g.translate(-getX(), -getY());
+        g.setColor(Color.gray);
+        g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        g.setColor(Color.RED);
+        g.drawRect(0, 0, Client.WIDTH, Client.HEIGHT);
+        return g;
+    }
 }
