@@ -68,7 +68,7 @@ public class Handler{
 		if(Point2D.distance(player.getX(), player.getY(), food.getX(), food.getY())< player.getRadius() - Food.RADIUS) {
 			player.setRadius(Math.hypot(player.getRadius(), Food.RADIUS));
 			Random random = new Random();
-			food.setXY(random.nextInt(Game.WIDTH), random.nextInt(Game.HEIGHT));
+			food.setXY(random.nextInt(Game.WIDTH-(int) Food.RADIUS*2) + (int) Food.RADIUS, random.nextInt(Game.HEIGHT- (int) Food.RADIUS*2)+ (int) Food.RADIUS);
 		}
 	}
 	

@@ -59,7 +59,7 @@ public class Receiver implements Runnable {
 				if (command.equals("startGame")) {
 					int id = Integer.parseInt(parameters.trim());
 					Random random = new Random();
-					Player newPlayer = new Player(id, random.nextInt(Game.WIDTH), random.nextInt(Game.HEIGHT));
+					Player newPlayer = new Player(id, random.nextInt(Game.WIDTH - 64)+32, random.nextInt(Game.HEIGHT-64)+32);
 					handler.addPlayer(newPlayer);
 					System.out.println("New player joined: "+id);
 					//send handler to player
