@@ -7,7 +7,6 @@ import agario.Player;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class Handler {
@@ -45,23 +44,29 @@ public class Handler {
     public void tick() {
         game.lock();
         List<Player> players = new ArrayList<>(game.getPlayers().values());
-        for (Player predator : players) {
-            if (game.getPlayer(predator.getPlayerID()) != null) {
-                for (Food food : getFoodList()) {
-                    tryEat(predator, food);
-                }
-                List<Player> preys = new ArrayList<>(game.getPlayers().values());
-                for (Player prey : preys) {
-                    if (predator.getPlayerID() != prey.getPlayerID()) {
-                        tryEat(predator, prey);
-                    }
-                }
-            }
-        }
+        players.stream()
+                .filter(predator -> game.getPlayer(predator.getPlayerID()) != null)
+                .forEach(this::tryEat);
         game.unlock();
     }
 
-    public void tryEat(Player player, Food food) {
+    private void tryEat(Player predator) {
+        tryEatFood(predator);
+        tryEatPrey(predator);
+    }
+
+    private void tryEatPrey(Player predator) {
+        List<Player> preys = new ArrayList<>(game.getPlayers().values());
+        preys.stream()
+                .filter(prey -> predator.getPlayerID() != prey.getPlayerID())
+                .forEach(prey -> tryEat(predator, prey));
+    }
+
+    private void tryEatFood(Player predator) {
+        getFoodList().forEach(food -> tryEat(predator, food));
+    }
+
+    private void tryEat(Player player, Food food) {
         if (Point2D.distance(player.getX(), player.getY(), food.getX(), food.getY()) < player.getRadius() - Food.RADIUS) {
             player.setRadius(Math.hypot(player.getRadius(), Food.RADIUS));
             Random random = new Random();
@@ -69,7 +74,7 @@ public class Handler {
         }
     }
 
-    public void tryEat(Player predator, Player prey) {
+    private void tryEat(Player predator, Player prey) {
         if (Point2D.distance(predator.getX(), predator.getY(), prey.getX(), prey.getY()) < (predator.getRadius() - prey.getRadius())) {
             predator.setRadius(Math.hypot(predator.getRadius(), prey.getRadius()));
             game.removePlayer(prey.getPlayerID());

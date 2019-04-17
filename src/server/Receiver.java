@@ -52,7 +52,6 @@ public class Receiver implements Runnable {
             InetAddress address = packet.getAddress();
             int port = packet.getPort();
             String received = new String(packet.getData(), 0, packet.getLength());
-            //System.out.println( received);
             String command = received.split(":")[0];
             String parameters = received.split(":")[1];
 
