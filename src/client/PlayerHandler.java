@@ -1,138 +1,88 @@
 package client;
 
-import java.awt.Color;
-
 import agario.Game;
 import agario.Player;
 
-public class PlayerHandler{
+class PlayerHandler {
 
-	private Player player;
-	private int velX, velY, mouseX, mouseY, speed, boost;
+    private Player player;
+    private int velX;
+    private int velY;
+    private int mouseX;
+    private int mouseY;
+    private int speed;
+    private int boost;
 
+    PlayerHandler(Player player) {
+        this.player = player;
+        mouseX = 0;
+        mouseY = 0;
+        this.speed = 5;
+        this.boost = 1;
+    }
 
-	public PlayerHandler(Player player) {
-		this.player = player;
-		mouseX = 0;
-		mouseY = 0;
-		this.speed = 5;
-		this.boost = 1;
-	}
+    void tick() {
+        updateVelocity();
+        int x = moveWithConstraints(getX() + velX, (int) getRadius(), Game.WIDTH - (int) getRadius());
+        int y = moveWithConstraints(getY() + velY, (int) getRadius(), Game.HEIGHT - (int) getRadius());
+        player.setXY(x, y);
+        if (boost != 1)
+            boost--;
+    }
 
-	public void tick() {
-		updateVelocity();
-		int x  = moveWithConstraints(getX()+velX,(int)getRadius(),Game.WIDTH-(int)getRadius());
-		int y = moveWithConstraints(getY()+velY,(int)getRadius(),Game.HEIGHT-(int)getRadius());
-		setXY(x,y);
-		if(boost!=1)
-			boost--;
+    private void updateVelocity() {
+        if (mouseX != 0 || mouseY != 0) {
+            int velX = (int) ((speed * boost * mouseX) / Math.hypot(mouseX, mouseY));
+            int velY = (int) ((speed * boost * mouseY) / Math.hypot(mouseX, mouseY));
+            this.velX = velX;
+            this.velY = velY;
+        } else {
+            this.velX = 0;
+            this.velY = 0;
+        }
+    }
 
-	}
+    private int moveWithConstraints(int x, int min, int max) {
+        if (x > max)
+            return max;
+        if (x < min)
+            return min;
+        return x;
+    }
 
-	public void updateVelocity() {
-		if(mouseX!=0 || mouseY!=0) {
-			int velX = (int) ((speed*boost*mouseX)/Math.hypot(mouseX, mouseY));
-			int velY = (int) ((speed*boost*mouseY)/Math.hypot(mouseX, mouseY));
-			this.setVelX(velX);
-			this.setVelY(velY);
-		}else {
-			this.setVelX(0);
-			this.setVelY(0);
-		}
-	}
+    void setMouseX(int mouseX) {
+        this.mouseX = mouseX;
+    }
 
-	public int moveWithConstraints(int x, int min, int max) {
-		if(x>max)
-			return max;
-		if(x<min)
-			return min;
-		return x;
-	}
+    void setMouseY(int mouseY) {
+        this.mouseY = mouseY;
+    }
 
-	public Player getPlayer() {
-		return player;
-	}
+    void setBoost(int boost) {
+        this.boost = boost;
+    }
 
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
+    int getX() {
+        return player.getX();
+    }
 
-	public int getVelX() {
-		return velX;
-	}
+    int getY() {
+        return player.getY();
+    }
 
-	public void setVelX(int velX) {
-		this.velX = velX;
-	}
+    double getRadius() {
+        return player.getRadius();
+    }
 
-	public int getVelY() {
-		return velY;
-	}
+    int getPlayerID() {
+        return player.getPlayerID();
+    }
 
-	public void setVelY(int velY) {
-		this.velY = velY;
-	}
+    void setRadius(double radius) {
+        player.setRadius(radius);
+    }
 
-	public int getMouseX() {
-		return mouseX;
-	}
-
-	public void setMouseX(int mouseX) {
-		this.mouseX = mouseX;
-	}
-
-	public int getMouseY() {
-		return mouseY;
-	}
-
-	public void setMouseY(int mouseY) {
-		this.mouseY = mouseY;
-	}
-
-	public int getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-
-	public int getBoost() {
-		return boost;
-	}
-
-	public void setBoost(int boost) {
-		this.boost = boost;
-	}
-
-	public int getX() {
-		return player.getX();
-	}
-
-	public int getY() {
-		return player.getY();
-	}
-
-	public void setXY(int x, int y) {
-		player.setXY(x, y);
-	}
-
-	public double getRadius() {
-		return player.getRadius();
-	}
-
-	public int getPlayerID() {
-		return player.getPlayerID();
-	}
-
-	public Color getColor() {
-		return player.getColor();
-	}
-
-	public void setRadius(double radius) {
-		player.setRadius(radius);
-	}
-	
-	
-
+    String getLocationUpdateMessage() {
+        return "locationUpdate:" + getPlayerID() + "," + getX() + "," + getY();
+    }
 }
