@@ -84,12 +84,14 @@ class Window extends Canvas {
                 e.printStackTrace();
             }
             new Window(width, height, "AgarIO", game);
+            frame.setVisible(false);
+            frame.dispose();
         });
 
         frame.setVisible(true);
     }
     
-    Window(int width, int height, String title, Client client, boolean exitFlag) {
+    Window(int width, int height, String title, String serverIp) {
     	JFrame frame_stop = new JFrame("AgarIO");
         
         JLabel label1 = new JLabel();
@@ -106,10 +108,19 @@ class Window extends Canvas {
 
 		b.addActionListener(new ActionListener() {
 	        
-			public void actionPerformed(ActionEvent arg0) {;
+			public void actionPerformed(ActionEvent arg0) {
 
-					new Window(width, height, "AgarIO", client);
-					System.exit(0);
+					try {
+						new Window(width, height, "AgarIO", new Client(serverIp));
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					frame_stop.setVisible(false);
+					frame_stop.dispose();
 			}          
 	      });
 		frame_stop.setVisible(true);

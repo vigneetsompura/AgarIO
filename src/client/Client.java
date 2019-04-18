@@ -77,7 +77,9 @@ public class Client extends Canvas implements Runnable {
         try {
             running = false;
 //            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            new Window(FWIDTH, FHEIGHT, "AgarIO", this, true);
+            new Window(FWIDTH, FHEIGHT, "AgarIO", this.serverIP.getHostAddress());
+            frame.setVisible(false);
+            frame.dispose();
             thread.join();
         } catch (Exception e) {
             e.printStackTrace();
