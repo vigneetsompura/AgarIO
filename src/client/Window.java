@@ -1,10 +1,20 @@
 package client;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  * @author Vigneet Sompura
@@ -19,14 +29,32 @@ class Window extends Canvas {
         frame.setPreferredSize(new Dimension(width, height));
         frame.setMinimumSize(new Dimension(width, height));
         frame.setMaximumSize(new Dimension(width, height));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);       
         frame.add(client);
         frame.setVisible(true);
         client.start(frame);
         client.requestFocusInWindow();
-        
+        frame.addWindowListener(new WindowAdapter() {
+        	@Override
+        	public void windowClosing(WindowEvent e) {
+        		
+        		String updateMessage = "endGame:"+client.getPlayerID();
+                byte[] outData = updateMessage.getBytes();
+                
+                try {
+        		DatagramSocket clientSocket = new DatagramSocket();
+        		DatagramPacket out = new DatagramPacket(outData, outData.length, InetAddress.getByName(serverIp), 4445);
+                clientSocket.send(out);
+                clientSocket.close();
+                System.exit(0);
+                
+                }catch(Exception exception) {
+                	exception.printStackTrace();
+                }
+        	}
+        });
         
     }
     

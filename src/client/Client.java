@@ -141,6 +141,10 @@ public class Client extends Canvas implements Runnable {
         return game.getPlayer(playerID);
     }
 
+    public int getPlayerID() {
+		return playerHandler.getPlayerID();
+    }
+    
     void setRadius(Player player) {
         playerHandler.setRadius(player.getRadius());
     }
