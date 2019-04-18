@@ -16,14 +16,14 @@ class PlayerHandler {
     private int velY;
     private int mouseX;
     private int mouseY;
-    private int speed;
+    private double basespeed;
     private int boost;
 
     PlayerHandler(Player player) {
         this.player = player;
         mouseX = 0;
         mouseY = 0;
-        this.speed = 5;
+        this.basespeed = 7;
         this.boost = 1;
     }
 
@@ -36,8 +36,8 @@ class PlayerHandler {
 
     private void updateVelocity() {
         if (mouseX != 0 || mouseY != 0) {
-            int velX = (int) ((speed * boost * mouseX) / Math.hypot(mouseX, mouseY));
-            int velY = (int) ((speed * boost * mouseY) / Math.hypot(mouseX, mouseY));
+            int velX = (int) ((getSpeed() * boost * mouseX) / Math.hypot(mouseX, mouseY));
+            int velY = (int) ((getSpeed() * boost * mouseY) / Math.hypot(mouseX, mouseY));
             this.velX = velX;
             this.velY = velY;
         } else {
@@ -46,6 +46,11 @@ class PlayerHandler {
         }
     }
 
+    double getSpeed() {
+    	return Math.max(32*basespeed/(32+(getRadius()-32)/4), 2);
+  
+    }
+    
     void setMouseX(int mouseX) {
         this.mouseX = mouseX;
     }
