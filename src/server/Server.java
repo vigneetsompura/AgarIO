@@ -2,6 +2,15 @@ package server;
 
 import java.net.SocketException;
 
+/**
+* Contains the core server logic. It takes helps from the Sender, Receiver and 
+* Handler classes in order to manage communication as well as the game objects.
+* When the server is onvoked it will listen for UDP packets on the port 4445.
+* 
+* @author  Vigneet Sompura
+* @version 1.0
+* @since   2019-04-18 
+*/
 public class Server implements Runnable {
 
     private Handler handler;

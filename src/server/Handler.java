@@ -3,6 +3,16 @@ package server;
 import agario.Game;
 import agario.Player;
 
+/**
+* A handler class whose role is to manage the game object and the addition 
+* and removal of players from this game object. The addition and removal
+* of players are done atomically
+* 
+* 
+* @author  Vigneet Sompura
+* @version 1.0
+* @since   2019-04-18 
+*/
 class Handler {
 
     private Game game;
