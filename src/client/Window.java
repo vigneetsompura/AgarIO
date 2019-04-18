@@ -106,7 +106,7 @@ class Window extends Canvas {
 
 		b.addActionListener(new ActionListener() {
 	        
-			public void actionPerformed(ActionEvent arg0) {;
+			public void actionPerformed(ActionEvent arg0) {
 
 					new Window(width, height, "AgarIO", client);
 					System.exit(0);
