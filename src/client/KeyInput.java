@@ -3,6 +3,16 @@ package client;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+* Class to handle the boost functionality.
+* Boosts a players position whenever they press 'Space' button.
+* Long pressing 'Space' button only boosts the player once.
+* 
+* @author  Varun Patni
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 public class KeyInput extends KeyAdapter {
 
     private PlayerHandler playerHandler;

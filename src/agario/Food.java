@@ -4,6 +4,16 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+* Data wrapper object for Food functions.
+* Whenever a player enters a game, Food is randomly placed across the canvas
+* which the player can consume to increase their size.
+* 
+* @author  Varun Patni
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 public class Food implements Serializable {
 
     private static final long serialVersionUID = 5494431746711149112L;

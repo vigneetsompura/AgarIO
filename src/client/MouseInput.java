@@ -3,6 +3,16 @@ package client;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+* Class that reads the current mouse cursor position inside the game canvas
+* and returns these co-ordinates. The player object is then moved a step towards
+* these co-ordinates.
+* 
+* @author  Vigneet Sompura
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 public class MouseInput extends MouseAdapter {
 
     private PlayerHandler playerHandler;

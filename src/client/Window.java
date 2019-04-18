@@ -9,15 +9,22 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+
 /**
- * @author Vigneet Sompura
- */
+* Class to construct and display different windows in the game. Contains three
+* different constructors, each representing a different type of window.
+* 
+* @author  Varun Patni
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 class Window extends Canvas {
 
     private static String serverIp;
     private static final long serialVersionUID = 505941576144136988L;
 
-    Window(int width, int height, String title, Client client) {
+    private Window(int width, int height, String title, Client client) {
         JFrame frame = new JFrame(title);
         frame.setPreferredSize(new Dimension(width, height));
         frame.setMinimumSize(new Dimension(width, height));
