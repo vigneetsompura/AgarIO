@@ -12,7 +12,7 @@ public class Game implements Serializable {
 
     private ReentrantLock lock = new ReentrantLock();
     private static final long serialVersionUID = -5776416645573148979L;
-    public static final int WIDTH = 4800, HEIGHT = WIDTH / 16 * 9;
+    public static final int WIDTH = 16000, HEIGHT = WIDTH / 16 * 9;
     private Map<Integer, Player> players;
     private List<Food> foodList;
 
