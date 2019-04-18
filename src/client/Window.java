@@ -17,7 +17,7 @@ class Window extends Canvas {
     private static String serverIp;
     private static final long serialVersionUID = 505941576144136988L;
 
-    Window(int width, int height, String title, Client client) {
+    private Window(int width, int height, String title, Client client) {
         JFrame frame = new JFrame(title);
         frame.setPreferredSize(new Dimension(width, height));
         frame.setMinimumSize(new Dimension(width, height));

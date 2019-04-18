@@ -57,9 +57,7 @@ public class Client extends Canvas implements Runnable {
         clientSocket.send(out);
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, IOException {
-//        String serverIp = args[0];
-//        Client game = new Client(serverIp);
+    public static void main(String[] args) {
         new Window(FWIDTH, FHEIGHT, "AgarIO");
     }
 
