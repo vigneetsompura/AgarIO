@@ -83,7 +83,7 @@ class Window extends Canvas {
             } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
             }
-            new Window(width, height, "AgarIO", game);
+            new Window(width, height, title, game);
             frame.setVisible(false);
             frame.dispose();
         });
@@ -92,7 +92,7 @@ class Window extends Canvas {
     }
     
     Window(int width, int height, String title, String serverIp) {
-    	JFrame frame_stop = new JFrame("AgarIO");
+    	JFrame frame_stop = new JFrame(title);
         
         JLabel label1 = new JLabel();
         label1.setText("Game Over!");
