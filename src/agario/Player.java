@@ -34,6 +34,21 @@ public class Player implements Serializable {
         this.y = y;
     }
 
+    public void setXYFromVelocity(int velX, int velY) {
+        int x = moveWithConstraints(this.x + velX, (int) radius, Game.WIDTH - (int) radius);
+        int y = moveWithConstraints(this.y + velY, (int) radius, Game.HEIGHT - (int) radius);
+        this.x = x;
+        this.y = y;
+    }
+
+    private int moveWithConstraints(int x, int min, int max) {
+        if (x > max)
+            return max;
+        if (x < min)
+            return min;
+        return x;
+    }
+
     public double getRadius() {
         return radius;
     }

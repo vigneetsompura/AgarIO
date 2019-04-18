@@ -1,14 +1,13 @@
 package client;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferStrategy;
-import java.util.Comparator;
-import java.util.List;
-
 import agario.Food;
 import agario.Game;
 import agario.Player;
+
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.util.Comparator;
+import java.util.List;
 
 class PlayerHandler {
 
@@ -30,9 +29,7 @@ class PlayerHandler {
 
     void tick() {
         updateVelocity();
-        int x = moveWithConstraints(getX() + velX, (int) getRadius(), Game.WIDTH - (int) getRadius());
-        int y = moveWithConstraints(getY() + velY, (int) getRadius(), Game.HEIGHT - (int) getRadius());
-        player.setXY(x, y);
+        player.setXYFromVelocity(velX, velY);
         if (boost != 1)
             boost--;
     }
@@ -47,14 +44,6 @@ class PlayerHandler {
             this.velX = 0;
             this.velY = 0;
         }
-    }
-
-    private int moveWithConstraints(int x, int min, int max) {
-        if (x > max)
-            return max;
-        if (x < min)
-            return min;
-        return x;
     }
 
     void setMouseX(int mouseX) {
@@ -93,20 +82,20 @@ class PlayerHandler {
         return "locationUpdate:" + getPlayerID() + "," + getX() + "," + getY();
     }
 
-	void render(Client client) {
-	    BufferStrategy bs = client.getBufferStrategy();
-	    if (bs == null) {
-	        client.createBufferStrategy(2);
-	        return;
-	    }
+    void render(Client client) {
+        BufferStrategy bs = client.getBufferStrategy();
+        if (bs == null) {
+            client.createBufferStrategy(2);
+            return;
+        }
 
         Graphics2D g = drawCanvas(client, bs);
         drawFood(client, g);
         drawPlayers(client, g);
 
         g.dispose();
-	    bs.show();
-	}
+        bs.show();
+    }
 
     private void drawPlayers(Client client, Graphics2D g) {
         List<Player> players = client.game.getPlayers();
