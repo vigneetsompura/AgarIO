@@ -5,15 +5,6 @@ import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.Random;
 
-/**
-* The HelloWorld program implements an application that
-* simply displays "Hello World!" to the standard output.
-*
-* @author  Vigneet Sompura
-* @version 1.0
-* @updated   04-17-2019 
-*/
-
 public class Player implements Serializable {
 
     private static final long serialVersionUID = -1295501542406655467L;
@@ -55,10 +46,6 @@ public class Player implements Serializable {
         return playerID;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
     public void tryEat(Food food) {
         if (Point2D.distance(getX(), getY(), food.getX(), food.getY()) < getRadius() - Food.RADIUS) {
             setRadius(Math.hypot(getRadius(), Food.RADIUS));
@@ -79,9 +66,9 @@ public class Player implements Serializable {
         return predator.getPlayerID() != getPlayerID();
     }
 
-	public void fillColor(Graphics2D g) {
-		g.setColor(getColor());
-		int radius = (int) getRadius();
-		g.fillOval(getX() - radius, getY() - radius, radius * 2, radius * 2);
-	}
+    public void fillColor(Graphics2D g) {
+        g.setColor(color);
+        int radius = (int) getRadius();
+        g.fillOval(getX() - radius, getY() - radius, radius * 2, radius * 2);
+    }
 }
