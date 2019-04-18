@@ -1,7 +1,7 @@
 package client;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  * @author Vigneet Sompura
@@ -83,30 +88,31 @@ class Window extends Canvas {
 
         frame.setVisible(true);
     }
-
+    
     Window(int width, int height, String title, Client client, boolean exitFlag) {
-        JFrame frame_stop = new JFrame("AgarIO");
-
+    	JFrame frame_stop = new JFrame("AgarIO");
+        
         JLabel label1 = new JLabel();
         label1.setText("Game Over!");
         label1.setBounds(10, 10, 100, 100);
-        JButton b = new JButton("Play again");
-        b.setBounds(100, 100, 140, 40);
-        frame_stop.add(label1);
-        frame_stop.add(b);
+        JButton b=new JButton("Play again");    
+		b.setBounds(100,100,140, 40);
+		frame_stop.add(label1);
+		frame_stop.add(b);
+		
+		frame_stop.setLayout(null);
+		frame_stop.setSize(300,300); 
+		frame_stop.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame_stop.setLayout(null);
-        frame_stop.setSize(300, 300);
-        frame_stop.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		b.addActionListener(new ActionListener() {
+	        
+			public void actionPerformed(ActionEvent arg0) {
 
-        b.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent arg0) {
-
-                new Window(width, height, "AgarIO", client);
-                System.exit(0);
-            }
-        });
-        frame_stop.setVisible(true);
+					new Window(width, height, "AgarIO", client);
+					System.exit(0);
+			}          
+	      });
+		frame_stop.setVisible(true);
+		
     }
 }
