@@ -77,23 +77,17 @@ class Window extends Canvas {
 		frame.add(b);
 		frame.setLayout(null); 
 		
-		b.addActionListener(new ActionListener() {
-	        
-			public void actionPerformed(ActionEvent arg0) {
-					serverIp = textfield.getText();
-					Client game = null;
-					try {
-						game = new Client(serverIp);
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					new Window(width, height, "AgarIO", game);
-			}          
-	      });
+		b.addActionListener(arg0 -> {
+                serverIp = textfield.getText();
+                Client game = null;
+                try {
+                    game = new Client(serverIp);
+                } catch (ClassNotFoundException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            new Window(width, height, "AgarIO", game);
+        });
 
         frame.setVisible(true);
 
