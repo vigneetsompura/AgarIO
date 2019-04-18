@@ -1,6 +1,8 @@
 # AgarIO
 Java based implementation of Agar.io
 
+GitHub link: https://github.com/vigneetsompura/AgarIO
+
 ## Group information
 
 | Name   |      UFID      |  GitHub ID |
