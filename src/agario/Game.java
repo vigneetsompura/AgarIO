@@ -51,7 +51,9 @@ public class Game implements Serializable {
     }
 
     public void addFood() {
-        foodList.add(new Food(calc(WIDTH), calc(HEIGHT)));
+        for (int i = 0; i < 1000; i++) {
+            foodList.add(new Food(calc(WIDTH), calc(HEIGHT)));
+        }
     }
 
     private int calc(int param) {
