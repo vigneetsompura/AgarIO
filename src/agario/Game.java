@@ -1,6 +1,19 @@
 package agario;
 
 import java.io.Serializable;
+
+/**
+* Data wrapper object for Game functions.
+* Manages the list of players and the list of food on the server side
+* currently in the game.
+* Inserts and deletes food or players from their respective
+* hashtables whenever necessary.
+* 
+* @author  Ankit Soni
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
