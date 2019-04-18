@@ -1,17 +1,12 @@
 package agario;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
-
-/**
-* The HelloWorld program implements an application that
-* simply displays "Hello World!" to the standard output.
-*
-* @author  Vigneet Sompura
-* @version 1.0
-* @updated   04-17-2019 
-*/
 
 public class Game implements Serializable {
 
@@ -22,7 +17,7 @@ public class Game implements Serializable {
     private List<Food> foodList;
 
     public Game() {
-        this.players = new HashMap<>();
+        this.players = new ConcurrentHashMap<>();
         this.foodList = new ArrayList<>();
     }
 
@@ -52,11 +47,11 @@ public class Game implements Serializable {
     }
 
     public void lock() {
-        this.lock.lock();
+        lock.lock();
     }
 
     public void unlock() {
-        this.lock.unlock();
+        lock.unlock();
     }
 
     public List<Player> getPlayers() {

@@ -5,15 +5,6 @@ import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.Random;
 
-/**
-* The HelloWorld program implements an application that
-* simply displays "Hello World!" to the standard output.
-*
-* @author  Vigneet Sompura
-* @version 1.0
-* @updated   04-17-2019 
-*/
-
 public class Player implements Serializable {
 
     private static final long serialVersionUID = -1295501542406655467L;
@@ -43,6 +34,21 @@ public class Player implements Serializable {
         this.y = y;
     }
 
+    public void setXYFromVelocity(int velX, int velY) {
+        int x = moveWithConstraints(this.x + velX, (int) radius, Game.WIDTH - (int) radius);
+        int y = moveWithConstraints(this.y + velY, (int) radius, Game.HEIGHT - (int) radius);
+        this.x = x;
+        this.y = y;
+    }
+
+    private int moveWithConstraints(int x, int min, int max) {
+        if (x > max)
+            return max;
+        if (x < min)
+            return min;
+        return x;
+    }
+
     public double getRadius() {
         return radius;
     }
@@ -53,10 +59,6 @@ public class Player implements Serializable {
 
     public int getPlayerID() {
         return playerID;
-    }
-
-    public Color getColor() {
-        return color;
     }
 
     public void tryEat(Food food) {
@@ -79,9 +81,9 @@ public class Player implements Serializable {
         return predator.getPlayerID() != getPlayerID();
     }
 
-	public void fillColor(Graphics2D g) {
-		g.setColor(getColor());
-		int radius = (int) getRadius();
-		g.fillOval(getX() - radius, getY() - radius, radius * 2, radius * 2);
-	}
+    public void fillColor(Graphics2D g) {
+        g.setColor(color);
+        int radius = (int) getRadius();
+        g.fillOval(getX() - radius, getY() - radius, radius * 2, radius * 2);
+    }
 }

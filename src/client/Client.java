@@ -5,6 +5,8 @@ import agario.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -74,7 +76,8 @@ public class Client extends Canvas implements Runnable {
     synchronized void stop() {
         try {
             running = false;
-            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+//            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            new Window(FWIDTH, FHEIGHT, "AgarIO", this, true);
             thread.join();
         } catch (Exception e) {
             e.printStackTrace();
