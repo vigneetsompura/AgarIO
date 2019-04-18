@@ -98,6 +98,7 @@ public class Receiver implements Runnable {
     private void endGame(String parameters) {
         int playerID = Integer.parseInt(parameters);
         handler.removePlayer(playerID);
+        System.out.println("Player exited: "+playerID);
     }
 
     private void startSenderThread(InetAddress address, int port) {
