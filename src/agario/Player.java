@@ -64,8 +64,7 @@ public class Player implements Serializable {
     public void tryEat(Food food) {
         if (Point2D.distance(getX(), getY(), food.getX(), food.getY()) < getRadius() - Food.RADIUS) {
             setRadius(Math.hypot(getRadius(), Food.RADIUS));
-            Random random = new Random();
-            food.setXY(random.nextInt(Game.WIDTH - (int) Food.RADIUS * 2) + (int) Food.RADIUS, random.nextInt(Game.HEIGHT - (int) Food.RADIUS * 2) + (int) Food.RADIUS);
+            food.respawn();
         }
     }
 

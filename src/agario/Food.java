@@ -1,45 +1,43 @@
 package agario;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.io.Serializable;
-
-/**
-* The HelloWorld program implements an application that
-* simply displays "Hello World!" to the standard output.
-*
-* @author  Vigneet Sompura
-* @version 1.0
-* @updated   04-17-2019 
-*/
+import java.util.Random;
 
 public class Food implements Serializable {
 
     private static final long serialVersionUID = 5494431746711149112L;
     private int x, y;
-    public static double RADIUS = 16;
+    static double RADIUS = 16;
 
-    public Food(int x, int y) {
+    Food(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
+    int getX() {
         return x;
     }
 
-    public int getY() {
+    int getY() {
         return y;
     }
 
-    public void setXY(int x, int y) {
+    private void setXY(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-	public void fillColor(Graphics2D g) {
-		g.setColor(Color.YELLOW);
-		int radius = (int) Food.RADIUS;
-		g.fillOval(getX() - radius, getY() - radius, radius * 2, radius * 2);
-	}
+    public void fillColor(Graphics2D g) {
+        g.setColor(Color.YELLOW);
+        int radius = (int) Food.RADIUS;
+        g.fillOval(getX() - radius, getY() - radius, radius * 2, radius * 2);
+    }
+
+    void respawn() {
+        Random random = new Random();
+        int x = random.nextInt(Game.WIDTH - (int) Food.RADIUS * 2) + (int) Food.RADIUS;
+        int y = random.nextInt(Game.HEIGHT - (int) Food.RADIUS * 2) + (int) Food.RADIUS;
+        setXY(x, y);
+    }
 }

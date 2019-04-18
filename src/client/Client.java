@@ -5,9 +5,6 @@ import agario.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -126,7 +123,7 @@ public class Client extends Canvas implements Runnable {
         responseHandler.start();
     }
 
-      void setGame(Game game) {
+    void setGame(Game game) {
         this.game = game;
     }
 
@@ -145,9 +142,9 @@ public class Client extends Canvas implements Runnable {
     }
 
     public int getPlayerID() {
-		return playerHandler.getPlayerID();
+        return playerHandler.getPlayerID();
     }
-    
+
     void setRadius(Player player) {
         playerHandler.setRadius(player.getRadius());
     }
