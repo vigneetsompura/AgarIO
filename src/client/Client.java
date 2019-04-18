@@ -13,9 +13,18 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Random;
 
+
 /**
- * @author Vigneet Sompura
- */
+* Entry point for Client. The main function, when invoked, launches a JFrame
+* window that first asks for the serverIP. It sends a randomly generated ID
+* that this client wants to get recognized by. It then initiates the client
+* instance once it receives game information for the server.
+* 
+* @author  Vigneet Sompura
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 public class Client extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 7846764236102367675L;

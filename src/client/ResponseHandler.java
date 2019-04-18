@@ -5,6 +5,17 @@ import agario.Player;
 
 import java.net.DatagramSocket;
 
+/**
+* A thread for this class is created every time a response is received from the
+* server. It reads the response and updates the players internal data structures
+* accordingly. It also ends the clients session if this is indicated by the 
+* server in its response.
+* 
+* @author  Vigneet Sompura
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 public class ResponseHandler implements Runnable {
 
     private Client client;

@@ -9,6 +9,17 @@ import java.awt.image.BufferStrategy;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+* Handler class that manages all types of player movements. It uses the helper
+* classes KeyInput and MouseInput to determine the next position of the player's
+* object.
+* It uses the tick method to keep reading new data  in a loop.
+* 
+* @author  Ankit Soni
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 class PlayerHandler {
 
     private Player player;

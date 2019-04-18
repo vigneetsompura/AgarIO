@@ -1,6 +1,13 @@
 package agario;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
+
 
 /**
 * Data wrapper object for Game functions.
@@ -13,13 +20,6 @@ import java.io.Serializable;
 * @version 1.0
 * @since   2019-04-17 
 */
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Game implements Serializable {
 

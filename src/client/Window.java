@@ -9,9 +9,16 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+
 /**
- * @author Vigneet Sompura
- */
+* Class to construct and display different windows in the game. Contains three
+* different constructors, each representing a different type of window.
+* 
+* @author  Varun Patni
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 class Window extends Canvas {
 
     private static String serverIp;
