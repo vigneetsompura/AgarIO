@@ -11,7 +11,7 @@ public class Server implements Runnable {
 
     private Server() throws SocketException {
         handler = new Handler();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             handler.addFood();
         }
         receiver = new Receiver(handler);

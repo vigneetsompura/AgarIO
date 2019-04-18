@@ -1,6 +1,19 @@
 package agario;
 
 import java.io.Serializable;
+
+/**
+* Data wrapper object for Game functions.
+* Manages the list of players and the list of food on the server side
+* currently in the game.
+* Inserts and deletes food or players from their respective
+* hashtables whenever necessary.
+* 
+* @author  Ankit Soni
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +25,7 @@ public class Game implements Serializable {
 
     private ReentrantLock lock = new ReentrantLock();
     private static final long serialVersionUID = -5776416645573148979L;
-    public static final int WIDTH = 4800, HEIGHT = WIDTH / 16 * 9;
+    public static final int WIDTH = 16000, HEIGHT = WIDTH / 16 * 9;
     private Map<Integer, Player> players;
     private List<Food> foodList;
 

@@ -5,6 +5,19 @@ import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+* Data wrapper object for Player functions.
+* Manages the x and y co-ordinates players based on how the player moves.
+* A list of Player objects is retained by the server based on which players
+* are currently in the game.
+* Sets and gets x any y co-ordinates for a player, also handles the boost
+* functionality.
+* 
+* @author  Vigneet Sompura
+* @version 1.0
+* @since   2019-04-17 
+*/
+
 public class Player implements Serializable {
 
     private static final long serialVersionUID = -1295501542406655467L;
