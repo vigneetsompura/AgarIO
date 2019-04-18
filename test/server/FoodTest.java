@@ -1,13 +1,9 @@
 package server;
 
-import static org.junit.Assert.assertEquals;
-
-import java.awt.Color;
-import java.awt.Graphics2D;
-
+import agario.Food;
 import org.junit.jupiter.api.Test;
 
-import agario.Food;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 	public class FoodTest {
 		@Test

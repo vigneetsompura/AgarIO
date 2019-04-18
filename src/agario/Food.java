@@ -10,20 +10,20 @@ public class Food implements Serializable {
     private int x, y;
     static double RADIUS = 16;
 
-    Food(int x, int y) {
+    public Food(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    int getX() {
+    public int getX() {
         return x;
     }
 
-    int getY() {
+    public int getY() {
         return y;
     }
 
-    private void setXY(int x, int y) {
+    public void setXY(int x, int y) {
         this.x = x;
         this.y = y;
     }
