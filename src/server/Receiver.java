@@ -10,6 +10,16 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Random;
 
+/**
+* A receiver class whose role is spawn a new thread every time it receives a 
+* new message from any of the clients. The communication protocol used 
+* throughout the project is UDP and hence Datagrame sockets are used.
+* 
+* 
+* @author  Vigneet Sompura
+* @version 1.0
+* @since   2019-04-18 
+*/
 public class Receiver implements Runnable {
 
     private Handler handler;

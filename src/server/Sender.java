@@ -8,6 +8,16 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+/**
+* A sender class whose role is send messages to clients based on what the 
+* message type is. It spawns a new thread and delegates the reply logic to
+* that thread.
+* 
+* 
+* @author  Vigneet Sompura
+* @version 1.0
+* @since   2019-04-18 
+*/
 public class Sender implements Runnable {
 
     private Handler handler;
