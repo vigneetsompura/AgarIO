@@ -1,20 +1,13 @@
 package client;
 
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 /**
  * @author Vigneet Sompura
@@ -90,40 +83,31 @@ class Window extends Canvas {
 
         frame.setVisible(true);
     }
-    
+
     Window(int width, int height, String title, String serverIp) {
-    	JFrame frame_stop = new JFrame(title);
-        
+        JFrame frame_stop = new JFrame(title);
+
         JLabel label1 = new JLabel();
         label1.setText("Game Over!");
         label1.setBounds(10, 10, 100, 100);
-        JButton b=new JButton("Play again");    
-		b.setBounds(100,100,140, 40);
-		frame_stop.add(label1);
-		frame_stop.add(b);
-		
-		frame_stop.setLayout(null);
-		frame_stop.setSize(300,300); 
-		frame_stop.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JButton b = new JButton("Play again");
+        b.setBounds(100, 100, 140, 40);
+        frame_stop.add(label1);
+        frame_stop.add(b);
 
-		b.addActionListener(new ActionListener() {
-	        
-			public void actionPerformed(ActionEvent arg0) {
+        frame_stop.setLayout(null);
+        frame_stop.setSize(300, 300);
+        frame_stop.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-					try {
-						new Window(width, height, "AgarIO", new Client(serverIp));
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					frame_stop.setVisible(false);
-					frame_stop.dispose();
-			}          
-	      });
-		frame_stop.setVisible(true);
-		
+        b.addActionListener(arg0 -> {
+            try {
+                new Window(width, height, "AgarIO", new Client(serverIp));
+            } catch (ClassNotFoundException | IOException e) {
+                e.printStackTrace();
+            }
+            frame_stop.setVisible(false);
+            frame_stop.dispose();
+        });
+        frame_stop.setVisible(true);
     }
 }
