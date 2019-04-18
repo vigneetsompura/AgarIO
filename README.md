@@ -6,8 +6,10 @@ Java based implementation of Agar.io
 | Name   |      UFID      |  GitHub ID |
 |----------|:-------------:|------:|
 | Vigneet Sompura |  8121-1616 | vigneetsompura |
-| Varun Patni |    8969-9355   |    varun4609, vsp46 |
+| Varun Patni |    8969-9355   |    varun4609 |
 |  Ankit Soni | 8761-9158 |    ankitprahladsoni |
+
+Note: Varun initially faced some issues with synching his github username, and so some of the commits he made are under the name 'Unknown, vsp46, varun4609'.
 
 # Project Contributions
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The project was implemented in a way that required all the participants to get involved in most of the modules that made up this project. While everyone was involved in designing/developing functionalities related to multithreading and concurrency, we have made our best attempts to seperate contributions based on project functionalities. Individual contributions are as follows:
